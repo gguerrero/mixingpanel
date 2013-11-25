@@ -15,3 +15,11 @@
 - unless Mixingpanel::Security.allowed?(request.remote_ip)
   :javascript
     mixpanel.disable();
+
+-# Setup Verbose and Debug mode in Development environment
+- if Rails.env.development?
+  :javascript
+    mixpanel.set_config({
+      verbose: true,
+      debug: true
+    });

@@ -10,13 +10,14 @@ module Mixingpanel
                   data: {event: event, extra_props: properties.to_json})
     end
 
-    def tracked_link_to(name, path, event, properties = {}, opts = {})
+    def tracked_link_to(name, path, event, properties = {}, opts = {}, &block)
+      path, event, properties, opts = name, path, event, properties if block_given?
       opts[:class] = opts[:class].to_s + " trackme"
 
       opts[:data] = {} if opts[:data].nil?
       opts[:data].merge!({event: event, extra_props: properties.to_json})
 
-      link_to(name, path, opts)
+      block_given? ? link_to(path, opts, &block) : link_to(name, path, opts)
     end
 
     def tracked_form_for(record, event, properties = {}, opts = {}, &block)

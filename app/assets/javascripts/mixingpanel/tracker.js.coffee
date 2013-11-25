@@ -4,13 +4,9 @@ class @MixingpanelTracker
     @_bindActions()
 
   _bindActions: ->
-    @_pageTracker()
     @_linkTracker()
     @_formTracker()
     @_eventTracker()
-
-  _pageTracker: ->
-
 
   _linkTracker: ->
     $('a.trackme').each (index, element)=>
@@ -30,7 +26,7 @@ class @MixingpanelTracker
 
       @track_links(selector, @_setTrackData(element, extra_properties)...)
 
-  _eventTracker: ()->
+  _eventTracker: ->
     $('div.mpevent.trackme').each (index, element)=>
       extra_properties = 
         "Page name": @mpp.pageName()
@@ -38,7 +34,7 @@ class @MixingpanelTracker
       @track(@_setTrackData(element, extra_properties)...)
 
   _selectorIdFor: (element) ->
-    if element.id? or element.id == ""
+    if element.id is null or element.id == ""
       randomized = Math.floor((Math.random()*1000)+1)
       timestamp  = new Date().getTime()
       $(element).attr('id', "tracked_item_#{randomized+timestamp}")
@@ -62,3 +58,7 @@ class @MixingpanelTracker
 
   track_forms: (selector, event, properties) ->
     mixpanel.track_forms(selector, event, properties)
+
+  register: (properties) ->
+    mixpanel.register(properties)
+
