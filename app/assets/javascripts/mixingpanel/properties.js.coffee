@@ -1,6 +1,6 @@
 class @MixingpanelProperties
-  constructor: ->
-    @referer = $("body").data('referer') || document.referrer
+  constructor: (url = null) ->
+    @referer = url || $("body").data('referer') || document.referrer
     @uri = @_parseReferer()
     @host = @uri.host.toLowerCase().replace(/^www\./, '')
 
