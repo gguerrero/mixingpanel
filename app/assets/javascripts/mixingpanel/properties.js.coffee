@@ -1,10 +1,14 @@
 class @MixingpanelProperties
-  constructor: (url = null) ->
+  constructor: (url) ->
     @referer = url || $("body").data('referer') || document.referrer
-    @uri = @_parseReferer()
+    @uri = @_getUri()
     @host = @uri.host.toLowerCase().replace(/^www\./, '')
 
-  _parseReferer: ->
+    @engine = @_getEngine()
+    @search_terms = @_getSearchTerms()
+    @type = @_getType()
+  
+  _getUri: ->
     keys = [ 'protocol', 'hostname', 'host', 
              'pathname', 'port', 'search', 'hash', 'href']
 
@@ -15,16 +19,33 @@ class @MixingpanelProperties
     uri[key] = anchor[key] for key in keys
     uri
 
-  type: ->
+  _getEngine: ->
+    if @google()
+      "google"
+    else if @yahoo()
+      "yahoo"
+    else if @bing()
+      'bing'
+    else
+      null
+
+  _getSearchTerms: ->
+    return [] unless (@engine? or @uri.search? or @uri.search is "")
+
+    key = if @engine is 'yahoo' then 'p' else 'q' # Yahoo are special with a 'p'
+    query_string = @uri.search.split("#{key}=")[1].split('&')[0]
+    if query_string.indexOf('%20', 0) > 0
+      query_string.split('%20')
+    else
+      query_string.split('+')
+
+  _getType: ->
     if @referer == ""
       "Direct"
-    else if @searchEngineType()?
+    else if @engine?
       "SEO"
     else
       "Referral"
-
-  searchEngine: ->
-    [@searchEngineType(), @uri]
 
   google: ->
     !@host.match(/plus.google\.[a-z]{2,4}/) && @host.match(/google\.[a-z]{2,4}/)
@@ -33,38 +54,10 @@ class @MixingpanelProperties
     @host.match(/yahoo\.com$/)
 
   bing: ->
-    @host.match(/bing\.com$/)
+    @host.match(/bing\.com$/)      
 
-  searchEngineType: ->
-    if @google()
-      @engine = 'google'
-    else if @yahoo()
-      @engine = 'yahoo'
-    else if @bing()
-      @engine = 'bing'
-    else
-      @engine = null
-    @engine
-
-  search_terms: ->
-    @searchEngine(@url)
-    if @engine?
-      split_by = if @engine is 'yahoo' then 'p' else 'q' #yahoo are special with a p
-      return unless @uri.search?
-      return if @uri.search is ""
-      query_string = @uri.search.split("#{split_by}=")[1].split('&')[0]
-      return if query_string is ""
-      if query_string.indexOf('%20', 0) > 0
-        query_string.split('%20')
-      else
-        query_string.split('+')
-
-  search_terms_concatenated: (search_terms) ->
-    search_terms.join(' ')
-
-  isItInternal: ->
-    kelisto_site = @host.match(/kelisto\.es$/)
-    if kelisto_site? then "si" else "no"
+  isInternal: ->
+    if @host.match(/kelisto\.es$/) then true else false
 
   isSocial: ->
     (@host.match(/busuu\.com$/) or
@@ -73,7 +66,7 @@ class @MixingpanelProperties
      @host.match(/flickr\.com$/) or
      @host.match(/foursquare\.com$/) or
      @host.match(/plus.google\.com$/) or
-     @host.match(/h15\.com$/) or
+     @host.match(/hi5\.com$/) or
      @host.match(/linkedin\.com$/) or
      @host.match(/myspace\.com$/) or
      @host.match(/pinterest\.com$/) or

@@ -1,5 +1,6 @@
 class @MixingpanelTracker
   constructor: ->
+  activate: ->
     @mpp = new MixingpanelProperties()
     @_bindActions()
 
@@ -62,3 +63,4 @@ class @MixingpanelTracker
   register: (properties) ->
     mixpanel.register(properties)
 
+window.mixingpanel_tracker = new MixingpanelTracker()

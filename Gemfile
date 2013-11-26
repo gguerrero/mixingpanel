@@ -12,3 +12,6 @@ gemspec
 
 # To use debugger
 # gem 'debugger'
+
+# Last jasminerice mantainer version
+gem 'jasminerice', github: 'bradphelan/jasminerice'
