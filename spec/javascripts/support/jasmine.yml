@@ -15,6 +15,7 @@ src_files:
   - "app/**/*.js.coffee"
   - "app/**/*.coffee"
   - "app/assets/javascripts/mixingpanel/properties.js.coffee"
+  - spec/javascripts/generated/assets/application*.js
 
 # stylesheets
 #
