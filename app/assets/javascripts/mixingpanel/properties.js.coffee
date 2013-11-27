@@ -30,8 +30,7 @@ class @MixingpanelProperties
       null
 
   _getSearchTerms: ->
-    debugger
-    return [] if not(@engine? or @uri.search?) or @uri.search is ""
+    return [] if not @engine? or not @uri.search? or @uri.search is ""
 
     key = if @engine is 'yahoo' then 'p' else 'q' # Yahoo are special with a 'p'
     query_string = @uri.search.split("#{key}=")[1].split('&')[0]

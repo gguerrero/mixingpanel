@@ -21,5 +21,6 @@ Gem::Specification.new do |s|
   s.add_dependency "jquery-rails"
 
   s.add_development_dependency 'rake'
+  s.add_development_dependency 'coffee-script'
   s.add_development_dependency 'jasmine'
 end
