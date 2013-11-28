@@ -1,5 +1,5 @@
 class @MixingpanelProperties
-  constructor: (url) ->
+  constructor: (@internal_domain, url) ->
     @referer = if url? then url else ($("body").data('referer') || document.referrer)
     @uri = @_getUri()
     @host = @uri.host.toLowerCase().replace(/^www\./, '')
@@ -63,7 +63,7 @@ class @MixingpanelProperties
     @host.match(/bing\.com$/)
 
   isInternal: ->
-    if @host.match(/kelisto\.es$/) then true else false
+    if @host.match("#{@internal_domain}$") then true else false
 
   isSocial: ->
     (@host.match(/busuu\.com$/) or
@@ -84,23 +84,4 @@ class @MixingpanelProperties
      @host.match(/xing\.com$/))?
 
   pageName: ->
-    page_name = "unknown"
-    if ($('body.landing-page').html()?)
-      page_name = "Landing Page: " + window.location.href.split("?")[0]
-    else if ($('article').attr('data-page-name')?)
-      page_name = $('article').attr('data-page-name')
-    else if (window.location.pathname == '/')
-      page_name = "Home"
-    else if ($('article h1').html()?)
-      page_name = $('article h1').html()
-    else if ($('h1').html()?)
-      page_name = $('h1').html()
-    else if ($('article h2').html()?)
-      page_name = $('article h2').html()
-    else if ($('h2').html()?)
-      page_name = $('h2').html()
-    else if ($('article h3').html()?)
-      page_name = $('article h3').html()
-    else if ($('h3').html()?)
-      page_name = $('h3').html()
-    page_name
+    # TODO: Comming soon. Set here a comprensive and coherent way to get page name

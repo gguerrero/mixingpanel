@@ -29,6 +29,17 @@ module Jasmine
 
       clean(destination_dir)
       compile_path_files(root, destination_dir)
+      copy_path_files(root, destination_dir)
+    end
+
+    def self.copy_path_files(srcdir, destdir)
+      glob = File.expand_path("**/*.{js,html}", srcdir)
+      Dir.glob(glob).each do |srcfile|
+        srcfile = Pathname.new(srcfile)
+        destfile = srcfile.sub(srcdir, destdir)
+        FileUtils.mkdir_p(destfile.dirname)
+        FileUtils.cp(srcfile, destfile)
+      end
     end
 
     def self.compile_path_files(srcdir, destdir)

@@ -1,7 +1,8 @@
-class @MixingpanelTracker
+class MixingpanelTracker
   constructor: ->
-  activate: ->
-    @mpp = new MixingpanelProperties()
+
+  activate: (internal_domain)->
+    @mpp = new MixingpanelProperties(internal_domain)
     @_bindActions()
 
   _bindActions: ->
@@ -12,27 +13,16 @@ class @MixingpanelTracker
   _linkTracker: ->
     $('a.trackme').each (index, element)=>
       selector = @_selectorIdFor(element)
-      extra_properties = 
-        "Page name": @mpp.pageName()
-        "Destination": element.href
-
-      @track_links(selector, @_setTrackData(element, extra_properties)...)
+      @track_links(selector, @_setTrackData(element)...)
 
   _formTracker: ->
     $('form.trackme').each (index, element)=>
       selector = @_selectorIdFor(element)
-      extra_properties = 
-        "Page name": @mpp.pageName()
-        "Action": element.action
-
-      @track_links(selector, @_setTrackData(element, extra_properties)...)
+      @track_forms(selector, @_setTrackData(element)...)
 
   _eventTracker: ->
     $('div.mpevent.trackme').each (index, element)=>
-      extra_properties = 
-        "Page name": @mpp.pageName()
-
-      @track(@_setTrackData(element, extra_properties)...)
+      @track(@_setTrackData(element)...)
 
   _selectorIdFor: (element) ->
     if element.id is null or element.id == ""
@@ -42,7 +32,7 @@ class @MixingpanelTracker
 
     "##{element.id}"
 
-  _setTrackData: (element, extra_properties) ->
+  _setTrackData: (element, extra_properties = {}) ->
     data = @extractEventData(element)
     properties = $.extend(extra_properties, data.properties)
     [data.event, properties]

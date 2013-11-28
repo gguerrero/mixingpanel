@@ -37,6 +37,8 @@ stylesheets:
 #   - helpers/**/*.js
 #
 helpers:
+  - "helpers/jquery-2.0.3.min.js"
+  - "helpers/jasmine-jquery.js"
   - "helpers/**/*.js"
 
 # spec_files

@@ -1,61 +1,48 @@
 describe "MixingpanelTracker", ->
+  beforeEach ->
+    jasmine.getFixtures().fixturesPath = "__spec__/fixtures"
+    @internal_domain = "kelisto.es"
 
-#   describe "track buttons", ->
-#     it "should call 'trackButton' with the right properties", ->
-#       loadFixtures 'trackme_button'
-#       spyOn KelistoInsight, 'trackButton'
+  describe "link tracker", ->
+    it "should create a random id for a tracked link without id", ->
+      loadFixtures "link_tracker.html"
+      spyOn mixingpanel_tracker, 'track_links'
+      
+      mixingpanel_tracker.activate(@internal_domain)
 
-#       KelistoInsight.trackButtons()
+      expect($(".no_id_link")).toHaveAttr('id')
 
-#       selector    = "#tracked-button"
-#       event       = "TRACKME EXAMPLE"
-#       extra_props = {foo: "bar"}
-#       expect(KelistoInsight.trackButton).toHaveBeenCalledWith(selector, event, extra_props)
+    it "should call 'track_links' with the right properties", ->
+      loadFixtures "link_tracker.html"
+      spyOn mixingpanel_tracker, 'track_links'
 
-#   describe "track pages", ->
-#     describe "homepage", ->
-#       it "should call 'trackIt' with the right properties", ->
-#         loadFixtures 'trackme_homepage_view'
-#         spyOn KelistoInsight, 'trackIt'
+      mixingpanel_tracker.activate(@internal_domain)
 
-#         KelistoInsight.trackPage()
+      selector    = "#tracked-link"
+      event       = "EXAMPLE EVENT"
+      extra_props = {foo: "bar"}
+      expect(mixingpanel_tracker.track_links).toHaveBeenCalledWith(selector, event, extra_props)
 
-#         extra_props = {}
-#         expect(KelistoInsight.trackIt).toHaveBeenCalledWith(extra_props)
+  describe "form tracker", ->
+    it "should call 'track_forms' with the right properties", ->
+      loadFixtures "form_tracker.html"
+      spyOn mixingpanel_tracker, 'track_forms'
 
-#     describe "articles", ->
-#       it "should call 'trackIt' with the right properties", ->
-#         loadFixtures 'trackme_article_view'
-#         spyOn KelistoInsight, 'trackIt'
+      mixingpanel_tracker.activate(@internal_domain)
 
-#         KelistoInsight.trackPage()
+      selector    = "#tracked-form"
+      event       = "EXAMPLE EVENT"
+      extra_props = {foo: "bar"}
 
-#         extra_props = {"product": "Example Product", "sub-product": "Example SubProduct"}
-#         expect(KelistoInsight.trackIt).toHaveBeenCalledWith(extra_props)
+      expect(mixingpanel_tracker.track_forms).toHaveBeenCalledWith(selector, event, extra_props)
 
-#   describe "track emails", ->
-#     it "should call 'trackIt' with the right properties", ->
-#       loadFixtures 'trackme_email_view'
-#       spyOn KelistoInsight, 'trackIt'
-#       spyOn KelistoInsight, 'setMixpanelPeople'
-#       spyOn(KelistoInsight, 'getWindowLocation').andReturn('http://example.com/foo/bar?date=18_10_2013&campaign=newsletter&mail=user%40example.com')
+  describe "event tracker", ->
+    it "should call 'track' with the right properties", ->
+      loadFixtures "event_tracker.html"
+      spyOn mixingpanel_tracker, 'track'
 
-#       KelistoInsight.trackPage()
+      mixingpanel_tracker.activate(@internal_domain)
 
-#       extra_props = {'Email campaign' : 'Email_Newsletter_Weekly_20131018'}
-#       expect(KelistoInsight.setMixpanelPeople).toHaveBeenCalledWith("user@example.com")
-#       expect(KelistoInsight.trackIt).toHaveBeenCalledWith(extra_props)
-
-#   describe "track redirects", ->
-#     it "should call mixpanelTrack with the right propeties", ->
-#       loadFixtures 'trackme_redirect'
-#       spyOn KelistoInsight, 'mixpanelTrack'
-
-#       KelistoInsight.trackRedirects()
-
-#       extra_props = {
-#         'Referral type': ['communications', 'mobile'],
-#         'Referral reference': 'mob-Simyo Tarifa 2 cent',
-#         'Referral url': 'http://referer.com/foo/bar'
-#       }
-#       expect(KelistoInsight.mixpanelTrack).toHaveBeenCalledWith('Page interaction', extra_props)
+      event = "EXAMPLE EVENT"
+      extra_props = {foo: "bar"}
+      expect(mixingpanel_tracker.track).toHaveBeenCalledWith(event, extra_props)
