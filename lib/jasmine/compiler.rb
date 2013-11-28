@@ -6,9 +6,8 @@ module Jasmine
   class Compiler
 
     def self.run
-      puts Jasmine.config.inspect
       compile_gem_assets
-      compile_jasmine_javascripts
+      compile_jasmine_specs
     end
 
     private
@@ -17,26 +16,22 @@ module Jasmine
     end
 
     def self.compile_gem_assets
-      puts "Compiling Gem assets..."
-
       root = File.expand_path("../../../app/assets/javascripts", __FILE__)
-      destination_dir = File.expand_path("../../../spec/javascripts/generated/assets", __FILE__)
+      destination_dir = File.expand_path("../../../tmp/assets", __FILE__)
 
       clean(destination_dir)
-      compile_coffees(root, destination_dir)
+      compile_path_files(root, destination_dir)
     end
 
-    def self.compile_jasmine_javascripts
-      puts "Compiling jasmine coffee scripts into javascript..."
-      
-      root = File.expand_path("../../../spec/javascripts/coffee", __FILE__)
-      destination_dir = File.expand_path("../generated/specs", root)
+    def self.compile_jasmine_specs
+      root = File.expand_path("../../../spec/javascripts", __FILE__)
+      destination_dir = File.expand_path("../../../tmp/specs", __FILE__)
 
       clean(destination_dir)
-      compile_coffees(root, destination_dir)
+      compile_path_files(root, destination_dir)
     end
 
-    def self.compile_coffees(srcdir, destdir)
+    def self.compile_path_files(srcdir, destdir)
       glob = File.expand_path("**/*.js.coffee", srcdir)
       Dir.glob(glob).each do |srcfile|
         srcfile = Pathname.new(srcfile)

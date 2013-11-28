@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mixingpanel (0.0.1)
+    mixingpanel (0.2.0)
       jquery-rails
       rails (~> 3.2.14)
 

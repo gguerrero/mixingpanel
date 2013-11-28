@@ -1,11 +1,12 @@
 class @MixingpanelProperties
   constructor: (url) ->
-    @referer = url || $("body").data('referer') || document.referrer
+    @referer = if url? then url else ($("body").data('referer') || document.referrer)
     @uri = @_getUri()
     @host = @uri.host.toLowerCase().replace(/^www\./, '')
 
     @engine = @_getEngine()
     @search_terms = @_getSearchTerms()
+    @search_terms_string = @search_terms.join(' ')
     @type = @_getType()
   
   _getUri: ->
@@ -32,12 +33,17 @@ class @MixingpanelProperties
   _getSearchTerms: ->
     return [] if not @engine? or not @uri.search? or @uri.search is ""
 
-    key = if @engine is 'yahoo' then 'p' else 'q' # Yahoo are special with a 'p'
-    query_string = @uri.search.split("#{key}=")[1].split('&')[0]
-    if query_string.indexOf('%20', 0) > 0
-      query_string.split('%20')
-    else
-      query_string.split('+')
+    if @uri.search?
+      key = if @engine is 'yahoo' then 'p' else 'q' # Yahoo are special with a 'p'
+      
+      query_string = @uri.search.split("#{key}=")
+      return [] unless query_string.length > 1
+
+      query_string = query_string[1].split('&')[0]
+      if query_string.indexOf('%20', 0) > 0
+        query_string.split('%20')
+      else
+        query_string.split('+')
 
   _getType: ->
     if @referer == ""
@@ -54,7 +60,7 @@ class @MixingpanelProperties
     @host.match(/yahoo\.com$/)
 
   bing: ->
-    @host.match(/bing\.com$/)      
+    @host.match(/bing\.com$/)
 
   isInternal: ->
     if @host.match(/kelisto\.es$/) then true else false
