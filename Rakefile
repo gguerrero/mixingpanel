@@ -4,7 +4,7 @@ require 'jasmine'
 require 'jasmine/compiler'
 load 'jasmine/tasks/jasmine.rake'
 
-task :default => [:spec, "jasmine:ci"]
+task :default => [:spec, "jasmine:ci:coffee"]
 
 namespace :jasmine do
   namespace :ci do
