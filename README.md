@@ -77,7 +77,7 @@ That will generate the following *HTML* code:
 That will generate the following *HTML* code:
 
 ```html
-<a href='/readme' class='button trackme' data-event='Click on ReadMe' data-extra-props='{"username":"William"}'>
+<a href='/readme' class='button trackme' id='tracked_item_1382331238331' data-event='Click on ReadMe' data-extra-props='{"username":"William"}'>
 Read Me!
 </a>
 ```
@@ -95,6 +95,11 @@ Read Me!
 That will generate the following *HTML* code:
 
 ```html
+<form accept-charset="UTF-8" action="/users/2/edit" class="cool-form" id="tracked_item_138576212213312" method="post" data-event='Submit user' data-extra-props='{"admin":"True"}'>
+ <...>
+ <...>
+ <...>
+</form>
 ```
 
 ## License
