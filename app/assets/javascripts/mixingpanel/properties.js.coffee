@@ -84,4 +84,21 @@ class @MixingpanelProperties
      @host.match(/xing\.com$/))?
 
   pageName: ->
-    # TODO: Comming soon. Set here a comprensive and coherent way to get page name
+    if $('body').data('page-name')?
+      $('body').data('page-name')
+    else if (window.location.pathname == '/')
+      "Home"
+    else if $('article h1').html()?
+      $('article h1').html()
+    else if $('h1').html()?
+      $('h1').html()
+    else if $('article h2').html()?
+      $('article h2').html()
+    else if $('h2').html()?
+      $('h2').html()
+    else if $('article h3').html()?
+      $('article h3').html()
+    else if $('h3').html()?
+      $('h3').html()
+    else
+      "unknown"

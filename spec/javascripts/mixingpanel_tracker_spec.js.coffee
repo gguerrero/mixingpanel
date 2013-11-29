@@ -20,7 +20,11 @@ describe "MixingpanelTracker", ->
 
       selector    = "#tracked-link"
       event       = "EXAMPLE EVENT"
-      extra_props = {foo: "bar"}
+      props = 
+        "Page name": mixingpanel_tracker.properties.pageName()
+        "origin": mixingpanel_tracker.properties.referer,
+        "link": document.URL
+      extra_props = $.extend(props, {foo: "bar"})
       expect(mixingpanel_tracker.track_links).toHaveBeenCalledWith(selector, event, extra_props)
 
   describe "form tracker", ->

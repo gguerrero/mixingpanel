@@ -2,7 +2,7 @@ class MixingpanelTracker
   constructor: ->
 
   activate: (internal_domain)->
-    @mpp = new MixingpanelProperties(internal_domain)
+    @properties = new MixingpanelProperties(internal_domain)
     @_bindActions()
 
   _bindActions: ->
@@ -13,7 +13,12 @@ class MixingpanelTracker
   _linkTracker: ->
     $('a.trackme').each (index, element)=>
       selector = @_selectorIdFor(element)
-      @track_links(selector, @_setTrackData(element)...)
+      properties =
+        "Page name": @properties.pageName()
+        "origin": @properties.referer,
+        "link": document.URL
+      
+      @track_links(selector, @_setTrackData(element, properties)...)
 
   _formTracker: ->
     $('form.trackme').each (index, element)=>

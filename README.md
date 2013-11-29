@@ -117,9 +117,8 @@ To run the Jasmine test suit as CI:
 $ rake jasmine:ci:coffee
 ```
 
-## To Do!
+## ToDo
 * Add **rspec** test for testing Rails helpers.
-* Add ```pageName()``` method on **MixingpanelProperties** to retrieve page names.
 
 ## License
 This project uses [*MIT-LICENSE*](http://en.wikipedia.org/wiki/MIT_License).
