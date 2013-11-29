@@ -8,3 +8,7 @@
 * Tracker and Properties ready.
 * Jasmine test running and passing.
 * Readme instructions.
+
+## 0.8.5 (November 29, 2013)
+
+* Improve more the README text

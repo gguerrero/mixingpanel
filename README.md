@@ -102,5 +102,24 @@ That will generate the following *HTML* code:
 </form>
 ```
 
+## Running *Jasmine* test suite
+As these code is writed on [CoffeScript](http://coffeescript.org/), the *Jasmine* test suite requieres to compile all the specs, source files, helper files and fixtures to JS first, so that's why *[jasmine/compiler.rb](https://github.com/gguerrero/mixingpanel/blob/master/lib/jasmine/compiler.rb)* exists. See also [Pivotal CI solution](http://pivotallabs.com/writing-and-running-jasmine-specs-with-rails-3-1-and-coffeescript/)
+
+To run the Jasmine test suite server:
+
+```bash
+$ rake jasmine:coffee
+```
+
+To run the Jasmine test suit as CI:
+
+```bash
+$ rake jasmine:ci:coffee
+```
+
+## To Do!
+* Add **rspec** test for testing Rails helpers.
+* Add ```pageName()``` method on **MixingpanelProperties** to retrieve page names.
+
 ## License
 This project uses [*MIT-LICENSE*](http://en.wikipedia.org/wiki/MIT_License).
