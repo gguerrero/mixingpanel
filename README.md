@@ -32,6 +32,13 @@ Or if you're using HAML:
 = include_mixpanel
 ```
 
+### JS Include
+For JS, in your *application.js* add the following line:
+
+```javascript
+//= require mixingpanel
+```
+
 ### Environment
 Set up the following **environment** **variables** on your project to deal with:
 
@@ -51,6 +58,18 @@ MIXPANEL_FILTERED_IPS="127.0.0.1 10.114.2.23 xxx.xxx.xx.xxx"
 
 ```bash
 MIXPANEL_TEMP_ACCESS=Yes/No
+```
+
+### Setup
+On a *CoffeeScript* from your choose, you should register and activate the mixingpanel trackings:
+
+```Coffeescript
+$ ->
+  mixingpanel_tracker.activate()
+  mixingpanel_tracker.register
+    appname: "MyCoolApp"
+    device_type: categorizr()
+    user_logged_in: user_logged_in()
 ```
 
 ### Helpers
