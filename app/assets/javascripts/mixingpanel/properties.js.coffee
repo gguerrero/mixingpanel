@@ -102,3 +102,6 @@ class @MixingpanelProperties
       $('h3').html()
     else
       "unknown"
+
+  pageType: ->
+    $("body").data('page-type') or "Default"

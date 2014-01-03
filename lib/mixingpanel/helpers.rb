@@ -29,5 +29,17 @@ module Mixingpanel
       form_for(record, opts, &block)
     end
 
+    if defined? SimpleForm
+      def tracked_simple_form_for(record, event, properties = {}, opts = {}, &block)
+        opts[:class] = opts[:class].to_s + " trackme"
+
+        opts[:data] = {} if opts[:data].nil?
+        opts[:data].merge!({event: event, extra_props: properties.to_json})
+
+        simple_form_for(record, html: opts, &block)
+      end
+    end
+
   end
 end
+
