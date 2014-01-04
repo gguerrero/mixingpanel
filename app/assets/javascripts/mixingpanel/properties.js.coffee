@@ -1,8 +1,8 @@
 class @MixingpanelProperties
-  constructor: (@internal_domain, url) ->
+  constructor: (@internal_domain = window.location.host, url) ->
     @referer = if url? then url else ($("body").data('referer') || document.referrer)
     @uri = @_getUri()
-    @host = @uri.host.toLowerCase().replace(/^www\./, '')
+    @host = if @uri.host? then @uri.host.toLowerCase().replace(/^www\./, '') else ""
 
     @engine = @_getEngine()
     @search_terms = @_getSearchTerms()
@@ -10,6 +10,8 @@ class @MixingpanelProperties
     @type = @_getType()
   
   _getUri: ->
+    return {} if @referer is ""
+
     keys = [ 'protocol', 'hostname', 'host', 
              'pathname', 'port', 'search', 'hash', 'href']
 
@@ -63,7 +65,8 @@ class @MixingpanelProperties
     @host.match(/bing\.com$/)
 
   isInternal: ->
-    if @host.match("#{@internal_domain}$") then true else false
+    domain = @internal_domain.split('.').slice(-2).join('.')
+    if @host.match("#{domain}$") then true else false
 
   isSocial: ->
     (@host.match(/busuu\.com$/) or

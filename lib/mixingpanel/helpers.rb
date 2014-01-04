@@ -26,6 +26,9 @@ module Mixingpanel
       opts[:data] = {} if opts[:data].nil?
       opts[:data].merge!({event: event, extra_props: properties.to_json})      
       
+      special_opts = opts.slice!(:class, :id, :style, :data)
+      opts = special_opts.merge(html: opts)
+
       form_for(record, opts, &block)
     end
 

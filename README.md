@@ -48,17 +48,6 @@ Set up the following **environment** **variables** on your project to deal with:
 MIXPANEL_SECRET_TOKEN="xxxxxxxxxxxxxxxxxx"
 ```
 
-* Filtered IPs. The addreses that won't track to mixpanel:
-
-```bash
-MIXPANEL_FILTERED_IPS="127.0.0.1 10.114.2.23 xxx.xxx.xx.xxx"
-```
-
-* Give temporary access to tracking into mixpanel, without IPs restrictions:
-
-```bash
-MIXPANEL_TEMP_ACCESS=Yes/No
-```
 
 ### Setup
 On a *CoffeeScript* from your choose, you should register and activate the mixingpanel trackings:
