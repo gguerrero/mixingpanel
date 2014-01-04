@@ -7,7 +7,7 @@ High level utilities for tracking events with *Mixpanel* in your Rails project.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "mixingpanel", git: 'gguerrero/mixingpanel'
+gem "mixingpanel", github: 'gguerrero/mixingpanel'
 ```
 
 And then execute:
