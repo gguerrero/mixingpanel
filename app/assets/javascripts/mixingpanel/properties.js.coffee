@@ -1,5 +1,6 @@
 class @MixingpanelProperties
   constructor: (@internal_domain = window.location.host, url) ->
+    @location = @_getLocation()
     @referer = if url? then url else ($("body").data('referer') || document.referrer)
     @uri = @_getUri()
     @host = if @uri.host? then @uri.host.toLowerCase().replace(/^www\./, '') else ""
@@ -8,7 +9,20 @@ class @MixingpanelProperties
     @search_terms = @_getSearchTerms()
     @search_terms_string = @search_terms.join(' ')
     @type = @_getType()
-  
+
+  _getLocation: ->
+    keys = [ 'protocol', 'hostname', 'host', 
+             'pathname', 'port', 'search', 'hash', 'href']
+
+    location = {}
+    location.query_string = {}
+
+    location[key] = window.location[key] for key in keys
+    location.search.replace /[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) ->
+      location.query_string[key] = decodeURIComponent value;
+
+    location
+
   _getUri: ->
     return {} if @referer is ""
 
@@ -87,10 +101,12 @@ class @MixingpanelProperties
      @host.match(/xing\.com$/))?
 
   pageName: ->
-    if $('body').data('page-name')?
-      $('body').data('page-name')
-    else if (window.location.pathname == '/')
+    if (@location.pathname == '/')
       "Home"
+    else if $('body').data('page-name')?
+      $('body').data('page-name')
+    else if $('article').data('page-name')?
+      $('article').data('page-name')
     else if $('article h1').html()?
       $('article h1').html()
     else if $('h1').html()?
