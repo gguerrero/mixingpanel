@@ -58,4 +58,10 @@ class MixingpanelTracker
   register: (properties) ->
     mixpanel.register(properties)
 
+  identify: (email, id = mixpanel.get_distinct_id()) ->
+    mixpanel.name_tag email
+    mixpanel.people.set
+      '$email': email
+    mixpanel.identify id
+
 window.mixingpanel_tracker = new MixingpanelTracker()
