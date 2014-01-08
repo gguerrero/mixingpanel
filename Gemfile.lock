@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    mixingpanel (0.10.1)
+    mixingpanel (0.10.2)
       jquery-rails
-      rails (~> 3.2.14)
+      rails (>= 3.2.14)
 
 GEM
   remote: https://rubygems.org/
