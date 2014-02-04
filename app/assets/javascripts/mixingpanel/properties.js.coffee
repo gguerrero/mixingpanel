@@ -1,6 +1,6 @@
 class @MixingpanelProperties
-  constructor: (@internal_domain = window.location.host, url) ->
-    @location = @_getLocation()
+  constructor: (@internal_domain = window.location.host, url, search) ->
+    @location = @_getLocation(search)
     @referer = if url? then url else ($("body").data('referer') || document.referrer)
     @uri = @_getUri()
     @host = if @uri.host? then @uri.host.toLowerCase().replace(/^www\./, '') else ""
@@ -10,7 +10,7 @@ class @MixingpanelProperties
     @search_terms_string = @search_terms.join(' ')
     @type = @_getType()
 
-  _getLocation: ->
+  _getLocation: (search) ->
     keys = [ 'protocol', 'hostname', 'host', 
              'pathname', 'port', 'search', 'hash', 'href']
 
@@ -18,6 +18,7 @@ class @MixingpanelProperties
     location.query_string = {}
 
     location[key] = window.location[key] for key in keys
+    location.search = search if search?
     location.search.replace /[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) ->
       location.query_string[key] = decodeURIComponent value;
 
@@ -64,6 +65,8 @@ class @MixingpanelProperties
   _getType: ->
     if @referer == ""
       "Direct"
+    else if @location.query_string.utm_campaign is "sem"
+      "SEM"
     else if @engine?
       "SEO"
     else
