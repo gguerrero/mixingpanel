@@ -1,8 +1,7 @@
 PATH
   remote: .
   specs:
-    mixingpanel (0.11.0)
-      jquery-rails
+    mixingpanel (0.11.3)
       rails (>= 3.2.14)
 
 GEM
@@ -124,5 +123,6 @@ PLATFORMS
 DEPENDENCIES
   coffee-script
   jasmine
+  jquery-rails
   mixingpanel!
   rake
