@@ -63,6 +63,8 @@ describe "MixingpanelSource", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.google.com")
       mps = new MixingpanelSource(mpp)
 
+      spyOn(mps, "writeSource")
+      spyOn(mps, "writeLastTouch")
       spyOn mixpanel, "register"
 
       mps.append()
@@ -76,17 +78,53 @@ describe "MixingpanelSource", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.google.com")
       mps = new MixingpanelSource(mpp)
 
+      spyOn(mps, "writeSource")
+      spyOn(mps, "writeLastTouch")
       spyOn(mixpanel, "register")
       spyOn(mixpanel, "get_property").andReturn("Direct")
+
+      mps.append()
+
+      expect(mixpanel.register).not.toHaveBeenCalled()
+
+    it "should set the last touch source property", ->
+      mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
+      mps = new MixingpanelSource(mpp)
+
       spyOn(mps, "writeSource")
+      spyOn(mps, "writeFirstTouch")
+      spyOn(mixpanel, "register")
 
       mps.append()
 
       prop = {}
-      prop[mps.firstSourceProperty] = "SEO"
-      debugger
-      expect(mixpanel.register).not.toHaveBeenCalled()
+      prop[mps.lastSourceProperty] = "Social"
+      expect(mixpanel.register).toHaveBeenCalledWith(prop)
 
-    it "should set the last touch source property", ->
     it "should add value to source property", ->
+      mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
+      mps = new MixingpanelSource(mpp)
+
+      spyOn(mps, "writeFirstTouch")
+      spyOn(mps, "writeLastTouch")
+      spyOn(mixpanel, "register")
+
+      mps.append()
+
+      prop = {}
+      prop[mps.sourceProperty] = ['Social']
+      expect(mixpanel.register).toHaveBeenCalledWith(prop)
+
     it "shouldn't add value to source property if the last value is the same", ->
+      mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
+      mps = new MixingpanelSource(mpp)
+      array = ['Social']
+
+      spyOn(mps, "writeFirstTouch")
+      spyOn(mps, "writeLastTouch")
+      spyOn(mixpanel, "get_property").andReturn(array)
+      spyOn(array, "push")
+
+      mps.append()
+
+      expect(array.push).not.toHaveBeenCalledWith(['Social','Social'])
