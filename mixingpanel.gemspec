@@ -17,9 +17,9 @@ Gem::Specification.new do |s|
   s.files = `git ls-files`.split("\n")
 
   s.add_dependency "rails", ">= 3.2.14"
+  s.add_dependency "jquery-rails", '~> 2.1.4'
 
   s.add_development_dependency 'rake'
-  s.add_development_dependency "jquery-rails"
   s.add_development_dependency 'coffee-script'
   s.add_development_dependency 'jasmine'
 end
