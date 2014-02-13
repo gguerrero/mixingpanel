@@ -22,6 +22,12 @@ class @MixingpanelSource
       medium: qsObj.utm_medium
       campaign: qsObj.utm_campaign
 
+  appendSources: (sources) ->
+    $.extend(@sources, sources)
+
+  setValueCallback: (callback) ->
+    @getValue = callback if typeof callback is "function"
+
   getValue: () ->
     if @utm.medium? or @utm.campaign?
       if @utm.medium is "email"
