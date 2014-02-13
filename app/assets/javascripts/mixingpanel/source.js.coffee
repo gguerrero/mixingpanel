@@ -1,9 +1,9 @@
 class @MixingpanelSource
   constructor: (@properties) ->
-    @expiration_days = 30
-    @first_source_property = "first_touch_source"
-    @last_source_property = "last_touch_source"
-    @source_property = "source"
+    @expirationDays = 30
+    @firstSourceProperty = "first_touch_source"
+    @lastSourceProperty = "last_touch_source"
+    @sourceProperty = "source"
     @sources =
       SEO: "SEO"
       SEM: "SEM"
@@ -52,29 +52,29 @@ class @MixingpanelSource
   append: ->
     if @registerSouce()
       value = @getValue()
-      @write_first_touch(value)
-      @write_last_touch(value)
-      @write_source(value)
+      @writeFirstTouch(value)
+      @writeLastTouch(value)
+      @writeSource(value)
 
   registerSouce: ->
     !@properties.isInternal()
 
-  write_first_touch: (value)->
+  writeFirstTouch: (value)->
     prop = {}
-    prop[@first_source_property] = value
-    mixpanel.register(prop, @expiration_days) unless mixpanel.get_property(@first_source_property)
+    prop[@firstSourceProperty] = value
+    mixpanel.register(prop, @expirationDays) unless mixpanel.get_property(@firstSourceProperty)
 
-  write_last_touch: (value)->
+  writeLastTouch: (value)->
     prop = {}
-    prop[@last_source_property] = value
+    prop[@lastSourceProperty] = value
     mixpanel.register(prop)
 
-  write_source: (value)->
-    source = mixpanel.get_property(@source_property)
+  writeSource: (value)->
+    source = mixpanel.get_property(@sourceProperty)
     if source
       if source[source.length-1] != value
-        mixpanel.get_property(@source_property).push(value)
+        mixpanel.get_property(@sourceProperty).push(value)
     else
       prop = {}
-      prop[@source_property] = [value]
+      prop[@sourceProperty] = [value]
       mixpanel.register(prop)

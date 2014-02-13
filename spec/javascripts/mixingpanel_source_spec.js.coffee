@@ -13,7 +13,7 @@ describe "MixingpanelSource", ->
       medium:   "bar"
       campaign: "meh"
 
-  describe "retrieving source value", ->
+  describe "retrieve source value", ->
     it "should return Email when the utm_medium is 'email'", ->
       mpp = new MixingpanelProperties("kelisto.es",
                                       "http://kelisto.es/",
@@ -47,3 +47,46 @@ describe "MixingpanelSource", ->
       mpp = new MixingpanelProperties("kelisto.es", "")
       mps = new MixingpanelSource(mpp)
       expect(mps.getValue()).toEqual("Direct")
+
+  describe "append value on source super-properties", ->
+    it "shouldn't set any property if it's and internal referer", ->
+      mpp = new MixingpanelProperties("kelisto.es", "http://meh.kelisto.es")
+      mps = new MixingpanelSource(mpp)
+
+      spyOn mixpanel, "register"
+
+      mps.append()
+
+      expect(mixpanel.register).not.toHaveBeenCalled()
+
+    it "should set the first touch source property", ->
+      mpp = new MixingpanelProperties("kelisto.es", "http://www.google.com")
+      mps = new MixingpanelSource(mpp)
+
+      spyOn mixpanel, "register"
+
+      mps.append()
+
+      prop = {}
+      prop[mps.firstSourceProperty] = "SEO"
+
+      expect(mixpanel.register).toHaveBeenCalledWith(prop, mps.expirationDays)
+
+    it "shouldn't set the first touch property if it is already setted", ->
+      mpp = new MixingpanelProperties("kelisto.es", "http://www.google.com")
+      mps = new MixingpanelSource(mpp)
+
+      spyOn(mixpanel, "register")
+      spyOn(mixpanel, "get_property").andReturn("Direct")
+      spyOn(mps, "writeSource")
+
+      mps.append()
+
+      prop = {}
+      prop[mps.firstSourceProperty] = "SEO"
+      debugger
+      expect(mixpanel.register).not.toHaveBeenCalled()
+
+    it "should set the last touch source property", ->
+    it "should add value to source property", ->
+    it "shouldn't add value to source property if the last value is the same", ->
