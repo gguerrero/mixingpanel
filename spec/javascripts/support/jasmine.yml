@@ -38,6 +38,7 @@ stylesheets:
 #
 helpers:
   - "helpers/jquery-2.0.3.min.js"
+  - "helpers/mixpanel-2.2.min.js"
   - "helpers/jasmine-jquery.js"
   - "helpers/**/*.js"
 

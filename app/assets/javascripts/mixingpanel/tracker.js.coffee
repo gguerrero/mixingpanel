@@ -3,6 +3,7 @@ class MixingpanelTracker
 
   activate: (internal_domain)->
     @properties = new MixingpanelProperties(internal_domain)
+    @source = new MixingpanelSource(@properties)
     @_bindActions()
 
   _bindActions: ->

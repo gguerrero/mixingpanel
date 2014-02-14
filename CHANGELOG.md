@@ -30,3 +30,12 @@
 ## 0.10.1 (January 04, 2014)
 
 * Fix 'tracked_form_for' helper so special options are splitted from html options
+
+## 0.11.1 (January 20, 2014)
+
+* Add SEM type!
+* Remove ```jquery``` dependency
+
+## 0.12.0 (February 14, 2014)
+
+* Add source feature to track first and last touch of a user, as well as it's source history.
