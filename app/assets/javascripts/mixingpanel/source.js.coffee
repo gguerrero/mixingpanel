@@ -11,7 +11,6 @@ class @MixingpanelSource
       DIRECT: "Direct"
       SOCIAL: "Social"
       REFERRAL: "Referral"
-      DISPLAY: "Display"
     @_setUTM()
     true
 
