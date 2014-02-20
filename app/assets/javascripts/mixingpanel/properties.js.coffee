@@ -65,7 +65,7 @@ class @MixingpanelProperties
   _getType: ->
     if @referer == ""
       "Direct"
-    else if @location.query_string.utm_campaign is "sem"
+    else if @location.query_string.utm_campaign? and @location.query_string.utm_campaign.match /^sem/
       "SEM"
     else if @engine?
       "SEO"
