@@ -12,7 +12,7 @@
   mixpanel.init("#{ENV['MIXPANEL_SECRET_TOKEN']}");
 
 -# Setup Verbose and Debug mode in Development environment
-- if Rails.env.development?
+- unless Rails.env.production?
   :javascript
     mixpanel.set_config({
       verbose: true,
