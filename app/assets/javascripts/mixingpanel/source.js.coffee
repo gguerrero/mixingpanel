@@ -31,7 +31,7 @@ class @MixingpanelSource
     if @utm.medium?
       if @utm.medium is "email"
         @sources.EMAIL
-      else if @utm.medium is "ppc"
+      else if @utm.medium is "ppc" or @utm.medium is "banner"
         @sources.SEM
       else
         undefined

@@ -28,6 +28,13 @@ describe "MixingpanelSource", ->
       mps = new MixingpanelSource(mpp)
       expect(mps.getValue()).toEqual("SEM")
 
+    it "should return SEM when the utm_medium is 'banner'", ->
+      mpp = new MixingpanelProperties("kelisto.es",
+                                      "http://google.es/",
+                                      "?utm_source=foo&utm_medium=banner&utm_campaign=bar")
+      mps = new MixingpanelSource(mpp)
+      expect(mps.getValue()).toEqual("SEM")
+
     it "should return SEO when there aren't UTM params and referer is google", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.google.es/")
       mps = new MixingpanelSource(mpp)

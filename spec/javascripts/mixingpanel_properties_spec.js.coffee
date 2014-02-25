@@ -120,6 +120,10 @@ describe "MixingpanelProperties", ->
       mpp = new MixingpanelProperties(@internal_domain, "https://google.com", "?utm_medium=ppc")
       expect(mpp.type).toEqual("SEM")
 
+    it "should get 'SEM' when utm_medium param is 'banner'", ->
+      mpp = new MixingpanelProperties(@internal_domain, "https://google.com", "?utm_medium=banner")
+      expect(mpp.type).toEqual("SEM")
+
     it "should get 'Referral' for an internal referrer", ->
       mpp = new MixingpanelProperties(@internal_domain, "http://www.kelisto.es/")
       expect(mpp.type).toEqual("Referral")
