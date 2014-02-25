@@ -63,7 +63,8 @@ class @MixingpanelProperties
         query_string.split('+')
 
   _getType: ->
-    if @location.query_string.utm_medium is "ppc"
+    if @location.query_string.utm_medium is "ppc" or
+       @location.query_string.utm_medium is "banner"
       "SEM"
     else if @engine?
       "SEO"
