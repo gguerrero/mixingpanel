@@ -19,6 +19,8 @@ class @MixingpanelSource
     @utm =
       source: qsObj.utm_source
       medium: qsObj.utm_medium
+      term: qsObj.utm_term
+      content: qsObj.utm_content
       campaign: qsObj.utm_campaign
 
   appendSources: (sources) ->

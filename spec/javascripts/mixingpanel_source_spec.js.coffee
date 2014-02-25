@@ -5,12 +5,14 @@ describe "MixingpanelSource", ->
   it "should parse UTM params successfully", ->
     mpp = new MixingpanelProperties("kelisto.es",
                                     "http://google.es/",
-                                    "?utm_source=foo&utm_medium=bar&utm_campaign=meh")
+                                    "?utm_source=foo&utm_medium=bar&utm_term=this+that&utm_content=zap&utm_campaign=meh")
     mps = new MixingpanelSource(mpp)
 
     expect(mps.utm).toEqual
       source:   "foo"
       medium:   "bar"
+      term:     "this+that"
+      content:  "zap"
       campaign: "meh"
 
   describe "retrieve source value", ->
