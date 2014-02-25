@@ -116,8 +116,8 @@ describe "MixingpanelProperties", ->
       mpp = new MixingpanelProperties(@internal_domain, "http://www.bing.com")
       expect(mpp.type).toEqual("SEO")
 
-    it "should get 'SEM' for a google referrer with utm_campaign param is 'sem'", ->
-      mpp = new MixingpanelProperties(@internal_domain, "https://google.com", "?utm_campaign=sem")
+    it "should get 'SEM' when utm_medium param is 'ppc'", ->
+      mpp = new MixingpanelProperties(@internal_domain, "https://google.com", "?utm_medium=ppc")
       expect(mpp.type).toEqual("SEM")
 
     it "should get 'Referral' for an internal referrer", ->

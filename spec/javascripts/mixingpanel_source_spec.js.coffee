@@ -17,14 +17,14 @@ describe "MixingpanelSource", ->
     it "should return Email when the utm_medium is 'email'", ->
       mpp = new MixingpanelProperties("kelisto.es",
                                       "http://kelisto.es/",
-                                      "?utm_source=foo&utm_medium=email&utm_campaign=meh")
+                                      "?utm_source=foo&utm_medium=email&utm_campaign=bar")
       mps = new MixingpanelSource(mpp)
       expect(mps.getValue()).toEqual("Email")
 
-    it "should return SEM when the utm_medium is not 'email'", ->
+    it "should return SEM when the utm_medium is 'ppc'", ->
       mpp = new MixingpanelProperties("kelisto.es",
                                       "http://google.es/",
-                                      "?utm_source=foo&utm_medium=bar&utm_campaign=meh")
+                                      "?utm_source=foo&utm_medium=ppc&utm_campaign=bar")
       mps = new MixingpanelSource(mpp)
       expect(mps.getValue()).toEqual("SEM")
 

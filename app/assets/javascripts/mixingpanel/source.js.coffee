@@ -28,16 +28,18 @@ class @MixingpanelSource
     @getValue = callback if typeof callback is "function"
 
   getValue: () ->
-    if @utm.medium? or @utm.campaign?
+    if @utm.medium?
       if @utm.medium is "email"
         @sources.EMAIL
-      else
+      else if @utm.medium is "ppc"
         @sources.SEM
+      else
+        undefined
 
     else if @properties.engine?
       @sources.SEO
 
-    else if @properties.referer != ""
+    else if @properties.referer isnt ""
       if @properties.isSocial()
         @sources.SOCIAL
       else
