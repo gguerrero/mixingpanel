@@ -63,12 +63,14 @@ class @MixingpanelProperties
         query_string.split('+')
 
   _getType: ->
-    if @referer == ""
-      "Direct"
+    if @location.query_string.utm_medium is "ppc"
+      "SEM"
     else if @engine?
-      if @location.query_string.utm_campaign? then "SEM" else "SEO"
-    else
+      "SEO"
+    else if @referer isnt ""
       "Referral"
+    else
+      "Direct"
 
   google: ->
     !@host.match(/plus.google\.[a-z]{2,4}/) && @host.match(/google\.[a-z]{2,4}/)
