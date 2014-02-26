@@ -60,7 +60,7 @@ class @MixingpanelSource
       @writeSource(value)
 
   registerSouce: ->
-    !@properties.isInternal()
+    @utm.medium isnt undefined or !@properties.isInternal()
 
   writeFirstTouch: (value)->
     prop = {}
