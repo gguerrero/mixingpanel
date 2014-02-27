@@ -63,9 +63,10 @@ class @MixingpanelProperties
         query_string.split('+')
 
   _getType: ->
-    if @location.query_string.utm_medium is "ppc" or
-       @location.query_string.utm_medium is "banner"
+    if @location.query_string.utm_medium is "ppc"
       "SEM"
+    else if @location.query_string.utm_medium is "banner"
+      "Display"
     else if @engine?
       "SEO"
     else if @referer isnt ""
