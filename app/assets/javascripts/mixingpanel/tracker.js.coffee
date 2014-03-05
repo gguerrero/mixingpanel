@@ -1,9 +1,10 @@
-class MixingpanelTracker
-  constructor: ->
-
-  activate: (internal_domain)->
+class @MixingpanelTracker
+  constructor: (internal_domain)->
+    throw "$ is not defined yet. Wait until document is ready" unless $?
     @properties = new MixingpanelProperties(internal_domain)
     @source = new MixingpanelSource(@properties)
+
+  bind: ->
     @_bindActions()
 
   _bindActions: ->
@@ -64,5 +65,3 @@ class MixingpanelTracker
     mixpanel.people.set
       '$email': email
     mixpanel.identify id
-
-window.mixingpanel_tracker = new MixingpanelTracker()
