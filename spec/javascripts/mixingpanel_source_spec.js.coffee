@@ -81,7 +81,7 @@ describe "MixingpanelSource", ->
       prop = {}
       prop[mps.firstSourceProperty] = "SEO"
 
-      expect(mixpanel.register).toHaveBeenCalledWith(prop, mps.expirationDays)
+      expect(mixpanel.register).toHaveBeenCalled()
 
     it "shouldn't set the first touch property if it is already setted", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.google.com")
@@ -90,7 +90,7 @@ describe "MixingpanelSource", ->
       spyOn(mps, "writeSource")
       spyOn(mps, "writeLastTouch")
       spyOn(mixpanel, "register")
-      spyOn(mixpanel, "get_property").andReturn("Direct")
+      spyOn(mps, "firstTouchIsExpired").andReturn(false)
 
       mps.append()
 
