@@ -64,14 +64,11 @@ class @MixingpanelSource
     @utm.medium isnt undefined or !@properties.isInternal()
 
   firstTouchIsExpired: ()->
-    first_touch_date = mixpanel.get_property(@firstTimestampProperty)
-    return true unless first_touch_date instanceof Date
-
-    first_touch_ms = first_touch_date.getTime()
+    first_touch_ms = Date.parse(mixpanel.get_property(@firstTimestampProperty))
     exp_days_ms = @expirationDays*24*60*60*1000
     current_time_ms = (new Date()).getTime()
 
-    (first_touch_ms + exp_days_ms) < current_time_ms
+    isNaN(first_touch_ms) or ((first_touch_ms + exp_days_ms) < current_time_ms)
 
   writeFirstTouch: (value)->
     if @firstTouchIsExpired()
