@@ -74,12 +74,9 @@ describe "MixingpanelSource", ->
 
       spyOn(mps, "writeSource")
       spyOn(mps, "writeLastTouch")
-      spyOn mixpanel, "register"
+      spyOn(mixpanel, "register")
 
       mps.append()
-
-      prop = {}
-      prop[mps.firstSourceProperty] = "SEO"
 
       expect(mixpanel.register).toHaveBeenCalled()
 
