@@ -2,6 +2,7 @@ class @MixingpanelSource
   constructor: (@properties) ->
     @expirationDays = 30
     @firstSourceProperty = "first_touch_source"
+    @firstTimestampProperty = "first_touch_timestamp"
     @lastSourceProperty = "last_touch_source"
     @sourceProperty = "source"
     @sources =
@@ -62,10 +63,22 @@ class @MixingpanelSource
   registerSouce: ->
     @utm.medium isnt undefined or !@properties.isInternal()
 
+  firstTouchIsExpired: ()->
+    first_touch_date = mixpanel.get_property(@firstTimestampProperty)
+    return true unless first_touch_date instanceof Date
+
+    first_touch_ms = first_touch_date.getTime()
+    exp_days_ms = @expirationDays*24*60*60*1000
+    current_time_ms = (new Date()).getTime()
+
+    (first_touch_ms + exp_days_ms) < current_time_ms
+
   writeFirstTouch: (value)->
-    prop = {}
-    prop[@firstSourceProperty] = value
-    mixpanel.register(prop, @expirationDays) unless mixpanel.get_property(@firstSourceProperty)
+    if @firstTouchIsExpired()
+      props = {}
+      props[@firstSourceProperty] = value
+      props[@firstTimestampProperty] = new Date()
+      mixpanel.register(props)
 
   writeLastTouch: (value)->
     prop = {}
