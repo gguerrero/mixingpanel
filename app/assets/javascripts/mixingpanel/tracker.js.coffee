@@ -1,8 +1,8 @@
 class @MixingpanelTracker
-  constructor: (internal_domain)->
-    throw "$ is not defined yet. Wait until document is ready" unless $?
-    @properties = new MixingpanelProperties(internal_domain)
-    @source = new MixingpanelSource(@properties)
+  constructor: (options = {internal_domain: undefined, source: {}})->
+    throw "'$' is not defined!! Ensure to call this constructor after $(document).ready" unless $?
+    @properties = new MixingpanelProperties(options.internal_domain)
+    @source = new MixingpanelSource(@properties, options.source)
 
   bind: ->
     @_bindActions()

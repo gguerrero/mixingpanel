@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mixingpanel (0.13.0)
+    mixingpanel (0.21.0)
       rails (>= 3.2.14)
 
 GEM

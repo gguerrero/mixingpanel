@@ -50,16 +50,21 @@ MIXPANEL_SECRET_TOKEN="xxxxxxxxxxxxxxxxxx"
 
 
 ### Setup
-On a *CoffeeScript* from your choose, you should register and activate the mixingpanel trackings:
+On a *CoffeeScript* from your choose, you should initialize and bind the mixingpanel trackings:
 
 ```Coffeescript
 $ ->
-  mixingpanel_tracker.activate()
+  mixingpanel_tracker = new MixingpanelTracker()
   mixingpanel_tracker.register
     appname: "MyCoolApp"
     device_type: categorizr()
     user_logged_in: user_logged_in()
+
+  mixingpanel_tracker.bind()
 ```
+
+Remember to setup this after the document is ready.
+
 
 ### Helpers
 By using these *view* *helpers* you'll add all the data attributes required for the *Mixingpanel* JS to track event on your *Mixpanel* account.
@@ -111,16 +116,8 @@ That will generate the following *HTML* code:
 ```
 
 ## Track your Sources!
-The source feature let you track <strong>3 cool superproperties</strong> within all your *mixpanel* *events*.
-As this tracking is optional, you should manually append the source within your project after ```mixingpanel_tracker.activate()```. For example:
-
-```coffeescript
-$ ->
-  mixingpanel_tracker.activate()
-  mixingpanel_tracker.source.append()
-```
-
-This code will use the default behaviour for tracking sources, i.e:
+The source feature tracks <strong>3 cool superproperties</strong> within all your *mixpanel* *events*.
+The default behaviour for tracking sources is:
 
 * If *utm_campaign* appears in the URL params and the *utm_medium* param is different than 'email' the source will turn into **SEM**.
 * If *utm_medium* is 'email', source will turn into **Email**.
@@ -129,48 +126,69 @@ This code will use the default behaviour for tracking sources, i.e:
 * If the document referer is another reference (but never from same domain), the source will be **Referral**.
 * If there is no referer at all and none of the other conditions is true, the source turns into **Direct**.
 
-As well as any company would like to have it's own way to track sources, you can provide new source mapping and a custom callback within the source is retrieved. For example:
+As well as any company would like to have it's own way to track sources, you can provide new source mapping and a custom callback within the source is retrieved when the tracker is initialized. For example:
 
 ```coffeescript
 $ ->
-  mixingpanel_tracker.source.appendSources
-    SEM_PERMANENT: "SEM Permanent"
-    SEM_EXPERIMENT: "SEM Experiment"
-    SEO_GOOGLE: "SEO Google"
-    SEO_OTHERS: "SEO Others"
+  mpp = new MixingpanelTracker
+    source: 
+      values:
+        SEM_PERMANENT: "SEM Permanent"
+        SEM_EXPERIMENT: "SEM Experiment"
+        SEO_GOOGLE: "SEO Google"
+        SEO_OTHERS: "SEO Others"
+      callback: ->
+        if @utm.campaign is "sem_permanent"
+          @sources.SEM_PERMANENT
+        else if @utm.campaign is "sem_experiment"
+          @sources.SEM_EXPERIMENT
+        else if @utm.medium is "email"
+          @sources.EMAIL
+        else if @properties.engine?
+          if @properties.engine is "google"
+            @sources.SEO_GOOGLE
+          else
+            @souces.SEO_OTHERS
+        else if @properties.referer != ""
+          if @properties.isSocial()
+            @sources.SOCIAL
+          else
+            @sources.REFERRAL
+        else if @properties.referer is ""
+          @sources.DIRECT
+        else
+          undefined
 
-  mixingpanel_tracker.source.setValueCallback ->
-    if @utm.campaign is "sem_permanent"
-      @sources.SEM_PERMANENT
-    else if @utm.campaign is "sem_experiment"
-      @sources.SEM_EXPERIMENT
-    else if @utm.medium is "email"
-      @sources.EMAIL
-    else if @properties.engine?
-      if @properties.engine is "google"
-        @sources.SEO_GOOGLE
-      else
-        @souces.SEO_OTHERS
-    else if @properties.referer != ""
-      if @properties.isSocial()
-        @sources.SOCIAL
-      else
-        @sources.REFERRAL
-    else if @properties.referer is ""
-      @sources.DIRECT
-    else
-      undefined
+  mpp.bind()
+```
 
-  mixingpanel_tracker.source.append()
+If you don't want to automatically append sources on *MixingpanelTracker* initializer, you could do so with:
+```coffeescript
+$ ->
+  mpp = new MixingpanelTracker
+    source: 
+      append: false
+
+  # ...
+  # DO SOME STUFF
+  # ...
+
+  mpp.source.append()
+  mpp.bind()
 ```
 
 
-<strong>Remember to implement all the sources values you want to return as you've override the defualt behaviour!!</strong>
+<strong>Remember to implement all the sources values you want to return as you've override the default behaviour!!</strong>
 
 
 The mixpanel superproperties tracked are:
 * <strong>first_touch_source</strong> set the first user source on your site within an expiration of 30 days.
-You can change this expiration days value by ```mixingpanel_tracker.source.expirationDays = 15```
+You can change this expiration days value by
+```coffeescript
+  mpp = new MixingpanelTracker
+    source:
+      firstTouchExpirationDays: 15
+```
 * <strong>last_touch_source</strong> set the current user source on your site.
 * <strong>source</strong> set and array of historical sources within the user navigation. This sources won't be repeated twice in a row, but it may be repeated along the source historical.
 

@@ -60,7 +60,7 @@ describe "MixingpanelSource", ->
   describe "append value on source super-properties", ->
     it "shouldn't set any property if it's and internal referer", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://meh.kelisto.es")
-      mps = new MixingpanelSource(mpp)
+      mps = new MixingpanelSource(mpp, append: false)
 
       spyOn mixpanel, "register"
 
@@ -70,10 +70,11 @@ describe "MixingpanelSource", ->
 
     it "should set the first touch source property", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.google.com")
-      mps = new MixingpanelSource(mpp)
+      mps = new MixingpanelSource(mpp, append: false)
 
       spyOn(mps, "writeSource")
       spyOn(mps, "writeLastTouch")
+      spyOn(mps, "firstTouchIsExpired").andReturn(true)
       spyOn(mixpanel, "register")
 
       mps.append()
@@ -82,7 +83,7 @@ describe "MixingpanelSource", ->
 
     it "shouldn't set the first touch property if it is already setted", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.google.com")
-      mps = new MixingpanelSource(mpp)
+      mps = new MixingpanelSource(mpp, append: false)
 
       spyOn(mps, "writeSource")
       spyOn(mps, "writeLastTouch")
@@ -95,7 +96,7 @@ describe "MixingpanelSource", ->
 
     it "should set the last touch source property", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
-      mps = new MixingpanelSource(mpp)
+      mps = new MixingpanelSource(mpp, append: false)
 
       spyOn(mps, "writeSource")
       spyOn(mps, "writeFirstTouch")
@@ -107,13 +108,14 @@ describe "MixingpanelSource", ->
       prop[mps.lastSourceProperty] = "Social"
       expect(mixpanel.register).toHaveBeenCalledWith(prop)
 
-    it "should add value to source property", ->
+    it "should add the first value to source property if it's undefined", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
-      mps = new MixingpanelSource(mpp)
+      mps = new MixingpanelSource(mpp, append: false)
 
       spyOn(mps, "writeFirstTouch")
       spyOn(mps, "writeLastTouch")
       spyOn(mixpanel, "register")
+      spyOn(mixpanel, "get_property").andReturn(undefined)
 
       mps.append()
 
@@ -121,9 +123,23 @@ describe "MixingpanelSource", ->
       prop[mps.sourceProperty] = ['Social']
       expect(mixpanel.register).toHaveBeenCalledWith(prop)
 
+    it "should append value to source property if the last value isn't the same", ->
+      mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
+      mps = new MixingpanelSource(mpp, append: false)
+      array = ['Direct']
+
+      spyOn(mps, "writeFirstTouch")
+      spyOn(mps, "writeLastTouch")
+      spyOn(mixpanel, "get_property").andReturn(array)
+      spyOn(array, "push")
+
+      mps.append()
+
+      expect(array.push).toHaveBeenCalledWith('Social')
+
     it "shouldn't add value to source property if the last value is the same", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
-      mps = new MixingpanelSource(mpp)
+      mps = new MixingpanelSource(mpp, append: false)
       array = ['Social']
 
       spyOn(mps, "writeFirstTouch")
@@ -133,4 +149,4 @@ describe "MixingpanelSource", ->
 
       mps.append()
 
-      expect(array.push).not.toHaveBeenCalledWith(['Social','Social'])
+      expect(array.push).not.toHaveBeenCalledWith('Social')

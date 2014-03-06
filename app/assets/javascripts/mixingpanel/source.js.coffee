@@ -1,6 +1,6 @@
 class @MixingpanelSource
-  constructor: (@properties) ->
-    @expirationDays = 30
+  constructor: (@properties, options = {}) ->
+    @expirationDays = options.firstTouchExpirationDays or 30
     @firstSourceProperty = "first_touch_source"
     @firstTimestampProperty = "first_touch_timestamp"
     @lastSourceProperty = "last_touch_source"
@@ -13,7 +13,8 @@ class @MixingpanelSource
       SOCIAL: "Social"
       REFERRAL: "Referral"
     @_setUTM()
-    true
+    @_setOptions(options)
+    @append() unless options.append is false
 
   _setUTM: ->
     qsObj = @properties.location.query_string
@@ -23,6 +24,10 @@ class @MixingpanelSource
       term: qsObj.utm_term
       content: qsObj.utm_content
       campaign: qsObj.utm_campaign
+
+  _setOptions: (options) ->
+    @appendSources(options.values) if options.values?
+    @setValueCallback(options.callback) if options.callback?
 
   appendSources: (sources) ->
     $.extend(@sources, sources)
@@ -59,6 +64,7 @@ class @MixingpanelSource
       @writeFirstTouch(value)
       @writeLastTouch(value)
       @writeSource(value)
+      value
 
   registerSouce: ->
     @utm.medium isnt undefined or !@properties.isInternal()
