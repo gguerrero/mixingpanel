@@ -1,9 +1,10 @@
-class MixingpanelTracker
-  constructor: ->
+class @MixingpanelTracker
+  constructor: (options = {internal_domain: undefined, source: {}})->
+    throw "'$' is not defined!! Ensure to call this constructor after $(document).ready" unless $?
+    @properties = new MixingpanelProperties(options.internal_domain)
+    @source = new MixingpanelSource(@properties, options.source)
 
-  activate: (internal_domain)->
-    @properties = new MixingpanelProperties(internal_domain)
-    @source = new MixingpanelSource(@properties)
+  bind: ->
     @_bindActions()
 
   _bindActions: ->
@@ -64,5 +65,3 @@ class MixingpanelTracker
     mixpanel.people.set
       '$email': email
     mixpanel.identify id
-
-window.mixingpanel_tracker = new MixingpanelTracker()

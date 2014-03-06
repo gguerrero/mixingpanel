@@ -39,3 +39,18 @@
 ## 0.12.0 (February 14, 2014)
 
 * Add source feature to track first and last touch of a user, as well as it's source history.
+
+## 0.14.0 (March 5, 2014)
+
+* First touch source datetime new superproperty: Expiration time for first touch controled with this new property.
+
+## 0.20.0 (March 6, 2014)
+
+* Mixingpanel Tracker new constructor!! Object is created outside the Gem JS files.
+* HTML Tags are binded manually after object build. So source can be appended before any event is tracked.
+
+## 0.21.0 (March 6, 2014)
+
+* Source is appended by default.
+* Sources and source callback may be modified from tracker builder.
+
