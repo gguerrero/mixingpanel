@@ -70,7 +70,7 @@ class @MixingpanelSource
     @utm.medium isnt undefined or !@properties.isInternal()
 
   firstTouchIsExpired: ()->
-    first_touch_ms = Date.parse(mixpanel.get_property(@firstTimestampProperty))
+    first_touch_ms = (new Date(mixpanel.get_property(@firstTimestampProperty))).getTime()
     exp_days_ms = @expirationDays*24*60*60*1000
     current_time_ms = (new Date()).getTime()
 
