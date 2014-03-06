@@ -2,4 +2,3 @@
 log/*.log
 pkg/
 tmp/*
-Gemfile.lock
