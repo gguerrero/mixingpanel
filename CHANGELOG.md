@@ -54,3 +54,9 @@
 * Source is appended by default.
 * Sources and source callback may be modified from tracker builder.
 
+## 0.22.0 (March 10, 2014)
+
+* Lots of fun tracking new super-properties. Now first and last touch sources
+will include a bunch of superproperties in addition to 'source' itself. The aim is to debug
+what were the data comming with each first and last superproperty in every moment.
+

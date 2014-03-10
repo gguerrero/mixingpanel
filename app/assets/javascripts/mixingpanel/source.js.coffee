@@ -77,16 +77,10 @@ class @MixingpanelSource
     isNaN(first_touch_ms) or ((first_touch_ms + exp_days_ms) < current_time_ms)
 
   writeFirstTouch: (value)->
-    if @firstTouchIsExpired()
-      props = {}
-      props[@firstSourceProperty] = value
-      props[@firstTimestampProperty] = new Date()
-      mixpanel.register(props)
+    mixpanel.register @propertiesFor(value, "first_touch") if @firstTouchIsExpired()
 
   writeLastTouch: (value)->
-    prop = {}
-    prop[@lastSourceProperty] = value
-    mixpanel.register(prop)
+    mixpanel.register @propertiesFor(value, "last_touch")
 
   writeSource: (value)->
     source = mixpanel.get_property(@sourceProperty)
@@ -97,3 +91,22 @@ class @MixingpanelSource
       prop = {}
       prop[@sourceProperty] = [value]
       mixpanel.register(prop)
+
+  propertiesFor: (source, base_name = "last_touch")->
+    props = {}
+    props[base_name+"_source"] = source
+    props[base_name+"_timestamp"] = new Date()
+    if @properties.location.href?
+      props[base_name+"_location_url"] = @properties.location.href
+      props[base_name+"_location_domain"] = @properties.location.href.match(/^(https*:\/\/.+)(\/.*)/)[1]
+      props[base_name+"_location_path"] = @properties.location.href.match(/^(https*:\/\/.+)(\/.*)/)[2]
+    if @properties.uri.href?
+      props[base_name+"_referrer_url"] = @properties.uri.href
+      props[base_name+"_referrer_domain"] = @properties.uri.href.match(/^(https*:\/\/.+)(\/.*)/)[1]
+      props[base_name+"_referrer_path"] = @properties.uri.href.match(/^(https*:\/\/.+)(\/.*)/)[2]
+    props[base_name+"_type"] = @properties.type
+    props[base_name+"_page_type"] = @properties.pageType()
+    props[base_name+"_page_name"] = @properties.pageName()
+    props[base_name+"_seach_terms"] = @properties.search_terms
+
+    props

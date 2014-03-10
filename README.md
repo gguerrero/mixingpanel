@@ -192,6 +192,19 @@ You can change this expiration days value by
 * <strong>last_touch_source</strong> set the current user source on your site.
 * <strong>source</strong> set and array of historical sources within the user navigation. This sources won't be repeated twice in a row, but it may be repeated along the source historical.
 
+As extra properties for **debug** aim:
+* <strong>first/last_timestamp</strong> set the timestamp in the moment of the tracking.
+* <strong>first/last_location_url</strong> set the location URL in the moment of the tracking.
+* <strong>first/last_location_domain</strong> set the location domain in the moment of the tracking.
+* <strong>first/last_location_path</strong> set the location path in the moment of the tracking.
+* <strong>first/last_referrer_url</strong> set the referrer URL in the moment of the tracking.
+* <strong>first/last_referrer_domain</strong> set the referrer domain in the moment of the tracking.
+* <strong>first/last_referrer_path</strong> set the referrer path in the moment of the tracking.
+* <strong>first/last_type</strong> set the type in the moment of the tracking.
+* <strong>first/last_page_type</strong> set the page type in the moment of the tracking.
+* <strong>first/last_page_name</strong> set the page name in the moment of the tracking.
+* <strong>first/last_search_terms</strong> set the search terms in the moment of the tracking.
+
 
 ## Running *Jasmine* test suite
 As these code is writed on [CoffeScript](http://coffeescript.org/), the *Jasmine* test suite requieres to compile all the specs, source files, helper files and fixtures to JS first, so that's why *[jasmine/compiler.rb](https://github.com/gguerrero/mixingpanel/blob/master/lib/jasmine/compiler.rb)* exists. See also [Pivotal CI solution](http://pivotallabs.com/writing-and-running-jasmine-specs-with-rails-3-1-and-coffeescript/)

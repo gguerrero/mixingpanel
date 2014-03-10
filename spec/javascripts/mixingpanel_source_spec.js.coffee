@@ -74,7 +74,7 @@ describe "MixingpanelSource", ->
 
       spyOn(mps, "writeSource")
       spyOn(mps, "writeLastTouch")
-      spyOn(mps, "firstTouchIsExpired").andReturn(true)
+      spyOn(mps, "firstTouchIsExpired").and.returnValue(true)
       spyOn(mixpanel, "register")
 
       mps.append()
@@ -88,7 +88,7 @@ describe "MixingpanelSource", ->
       spyOn(mps, "writeSource")
       spyOn(mps, "writeLastTouch")
       spyOn(mixpanel, "register")
-      spyOn(mps, "firstTouchIsExpired").andReturn(false)
+      spyOn(mps, "firstTouchIsExpired").and.returnValue(false)
 
       mps.append()
 
@@ -104,9 +104,8 @@ describe "MixingpanelSource", ->
 
       mps.append()
 
-      prop = {}
-      prop[mps.lastSourceProperty] = "Social"
-      expect(mixpanel.register).toHaveBeenCalledWith(prop)
+      source = mixpanel.register.calls.mostRecent().args[0].last_touch_source
+      expect(source).toEqual("Social")
 
     it "should add the first value to source property if it's undefined", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
@@ -115,7 +114,7 @@ describe "MixingpanelSource", ->
       spyOn(mps, "writeFirstTouch")
       spyOn(mps, "writeLastTouch")
       spyOn(mixpanel, "register")
-      spyOn(mixpanel, "get_property").andReturn(undefined)
+      spyOn(mixpanel, "get_property").and.returnValue(undefined)
 
       mps.append()
 
@@ -130,7 +129,7 @@ describe "MixingpanelSource", ->
 
       spyOn(mps, "writeFirstTouch")
       spyOn(mps, "writeLastTouch")
-      spyOn(mixpanel, "get_property").andReturn(array)
+      spyOn(mixpanel, "get_property").and.returnValue(array)
       spyOn(array, "push")
 
       mps.append()
@@ -144,7 +143,7 @@ describe "MixingpanelSource", ->
 
       spyOn(mps, "writeFirstTouch")
       spyOn(mps, "writeLastTouch")
-      spyOn(mixpanel, "get_property").andReturn(array)
+      spyOn(mixpanel, "get_property").and.returnValue(array)
       spyOn(array, "push")
 
       mps.append()
