@@ -59,8 +59,9 @@ class @MixingpanelSource
       undefined
 
   append: ->
+    value = @getValue()
+    @writeReferenceSource(value) # Does this make any difference?
     if @registerSouce()
-      value = @getValue()
       @writeFirstTouch(value)
       @writeLastTouch(value)
       @writeSource(value)
@@ -76,6 +77,9 @@ class @MixingpanelSource
 
     isNaN(first_touch_ms) or ((first_touch_ms + exp_days_ms) < current_time_ms)
 
+  writeFirstTouch: (value)->
+    mixpanel.register @propertiesFor(value, "ref_touch")
+    
   writeFirstTouch: (value)->
     mixpanel.register @propertiesFor(value, "first_touch") if @firstTouchIsExpired()
 
