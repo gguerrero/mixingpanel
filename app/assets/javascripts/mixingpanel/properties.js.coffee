@@ -1,7 +1,7 @@
 class @MixingpanelProperties
   constructor: (@internal_domain = window.location.host, url, search) ->
     @location = @_getLocation(search)
-    @referer = if url? then url else ($("body").data('referer') || document.referrer)
+    @referer = if url? then url else document.referrer
     @uri = @_getUri()
     @host = if @uri.host? then @uri.host.toLowerCase().replace(/^www\./, '') else ""
 
