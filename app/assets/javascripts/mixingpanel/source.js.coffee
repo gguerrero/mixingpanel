@@ -59,8 +59,9 @@ class @MixingpanelSource
       undefined
 
   append: ->
+    value = @getValue()
+    @writeReferenceTouch()
     if @registerSouce()
-      value = @getValue()
       @writeFirstTouch(value)
       @writeLastTouch(value)
       @writeSource(value)
@@ -75,6 +76,9 @@ class @MixingpanelSource
     current_time_ms = (new Date()).getTime()
 
     isNaN(first_touch_ms) or ((first_touch_ms + exp_days_ms) < current_time_ms)
+
+  writeReferenceTouch: (value)->
+    mixpanel.register @propertiesFor(value, "ref_touch")
 
   writeFirstTouch: (value)->
     mixpanel.register @propertiesFor(value, "first_touch") if @firstTouchIsExpired()

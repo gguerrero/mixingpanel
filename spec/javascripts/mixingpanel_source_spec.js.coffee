@@ -62,7 +62,8 @@ describe "MixingpanelSource", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://meh.kelisto.es")
       mps = new MixingpanelSource(mpp, append: false)
 
-      spyOn mixpanel, "register"
+      spyOn(mps, "writeReferenceTouch")
+      spyOn(mixpanel, "register")
 
       mps.append()
 
@@ -86,6 +87,7 @@ describe "MixingpanelSource", ->
       mps = new MixingpanelSource(mpp, append: false)
 
       spyOn(mps, "writeSource")
+      spyOn(mps, "writeReferenceTouch")
       spyOn(mps, "writeLastTouch")
       spyOn(mixpanel, "register")
       spyOn(mps, "firstTouchIsExpired").and.returnValue(false)
