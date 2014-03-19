@@ -68,7 +68,7 @@ class @MixingpanelSource
       value
 
   registerSouce: ->
-    @utm.medium isnt undefined or !@properties.isInternal()
+    @utm.medium? or !@properties.isInternal()
 
   firstTouchIsExpired: ()->
     first_touch_ms = (new Date(mixpanel.get_property(@firstTimestampProperty))).getTime()
