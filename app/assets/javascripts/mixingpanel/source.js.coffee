@@ -61,13 +61,13 @@ class @MixingpanelSource
   append: ->
     value = @getValue()
     @writeReferenceTouch(value)
-    if @registerSouce()
+    if @registerSource()
       @writeFirstTouch(value)
       @writeLastTouch(value)
       @writeSource(value)
       value
 
-  registerSouce: ->
+  registerSource: ->
     @utm.medium? or !@properties.isInternal()
 
   firstTouchIsExpired: ()->
