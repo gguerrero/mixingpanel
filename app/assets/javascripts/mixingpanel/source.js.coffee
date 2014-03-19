@@ -61,14 +61,14 @@ class @MixingpanelSource
   append: ->
     value = @getValue()
     @writeReferenceTouch(value)
-    if @registerSouce()
+    if @registerSource()
       @writeFirstTouch(value)
       @writeLastTouch(value)
       @writeSource(value)
       value
 
-  registerSouce: ->
-    @utm.medium isnt undefined or !@properties.isInternal()
+  registerSource: ->
+    @utm.medium? or !@properties.isInternal()
 
   firstTouchIsExpired: ()->
     first_touch_ms = (new Date(mixpanel.get_property(@firstTimestampProperty))).getTime()
