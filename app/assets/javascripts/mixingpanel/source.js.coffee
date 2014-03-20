@@ -61,7 +61,7 @@ class @MixingpanelSource
   append: ->
     value = @getValue()
     @writeReferenceTouch(value)
-    if @registerSource() && value != undefined
+    if @registerSource() and value?
       @writeFirstTouch(value)
       @writeLastTouch(value)
       @writeSource(value)
