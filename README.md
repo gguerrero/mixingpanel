@@ -194,16 +194,9 @@ You can change this expiration days value by
 
 As extra properties for **debug** aim:
 * <strong>first/last_timestamp</strong> set the timestamp in the moment of the tracking.
-* <strong>first/last_location_url</strong> set the location URL in the moment of the tracking.
-* <strong>first/last_location_domain</strong> set the location domain in the moment of the tracking.
-* <strong>first/last_location_path</strong> set the location path in the moment of the tracking.
-* <strong>first/last_referrer_url</strong> set the referrer URL in the moment of the tracking.
-* <strong>first/last_referrer_domain</strong> set the referrer domain in the moment of the tracking.
-* <strong>first/last_referrer_path</strong> set the referrer path in the moment of the tracking.
 * <strong>first/last_type</strong> set the type in the moment of the tracking.
-* <strong>first/last_page_type</strong> set the page type in the moment of the tracking.
-* <strong>first/last_page_name</strong> set the page name in the moment of the tracking.
-* <strong>first/last_search_terms</strong> set the search terms in the moment of the tracking.
+* <strong>first/last_location_url</strong> set the location URL in the moment of the tracking.
+* <strong>first/last_referrer_url</strong> set the referrer URL in the moment of the tracking.
 
 
 ## Running *Jasmine* test suite

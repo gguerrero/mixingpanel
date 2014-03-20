@@ -60,3 +60,7 @@
 will include a bunch of superproperties in addition to 'source' itself. The aim is to debug
 what were the data comming with each first and last superproperty in every moment.
 
+## 0.23.0 (March 20, 2014)
+
+* Pack all superproperties in a object and call mixpanel.register only once
+* Remove some not used debug properties

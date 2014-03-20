@@ -1,3 +1,3 @@
 module Mixingpanel
-  VERSION = "0.22.4"
+  VERSION = "0.23.0"
 end

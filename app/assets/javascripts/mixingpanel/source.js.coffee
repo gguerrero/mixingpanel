@@ -60,12 +60,15 @@ class @MixingpanelSource
 
   append: ->
     value = @getValue()
-    @writeReferenceTouch(value)
-    if @registerSource() && value != undefined
-      @writeFirstTouch(value)
-      @writeLastTouch(value)
-      @writeSource(value)
-      value
+    allSources = {}
+    allSources = @getReferenceTouch(value)
+    if @registerSource() and value?
+      allSources = $.extend(allSources, @getFirstTouch(value)) if @firstTouchIsExpired()
+      allSources = $.extend(allSources, @getLastTouch(value))
+      allSources = $.extend(allSources, @getSource(value))
+
+    mixpanel.register allSources
+    allSources
 
   registerSource: ->
     @utm.medium? or !@properties.isInternal()
@@ -77,40 +80,31 @@ class @MixingpanelSource
 
     isNaN(first_touch_ms) or ((first_touch_ms + exp_days_ms) < current_time_ms)
 
-  writeReferenceTouch: (value)->
-    mixpanel.register @propertiesFor(value, "ref_touch")
+  getReferenceTouch: (value)->
+    @propertiesFor(value, "ref_touch")
 
-  writeFirstTouch: (value)->
-    mixpanel.register @propertiesFor(value, "first_touch") if @firstTouchIsExpired()
+  getFirstTouch: (value)->
+    @propertiesFor(value, "first_touch")
 
-  writeLastTouch: (value)->
-    mixpanel.register @propertiesFor(value, "last_touch")
+  getLastTouch: (value)->
+    @propertiesFor(value, "last_touch")
 
-  writeSource: (value)->
-    source = mixpanel.get_property(@sourceProperty)
-    if source
-      if source[source.length-1] != value
-        mixpanel.get_property(@sourceProperty).push(value)
+  getSource: (value)->
+    sources = mixpanel.get_property(@sourceProperty)
+    if sources?
+      sources.push(value) if sources[sources.length-1] isnt value
     else
-      prop = {}
-      prop[@sourceProperty] = [value]
-      mixpanel.register(prop)
+      sources = [value]
+
+    prop = {}
+    prop[@sourceProperty] = sources
+    prop
 
   propertiesFor: (source, base_name = "last_touch")->
     props = {}
-    props[base_name+"_source"] = source
-    props[base_name+"_timestamp"] = new Date()
-    if @properties.location.href?
-      props[base_name+"_location_url"] = @properties.location.href
-      props[base_name+"_location_domain"] = @properties.location.href.match(/^(https*:\/\/.+)(\/.*)/)[1]
-      props[base_name+"_location_path"] = @properties.location.href.match(/^(https*:\/\/.+)(\/.*)/)[2]
-    if @properties.uri.href?
-      props[base_name+"_referrer_url"] = @properties.uri.href
-      props[base_name+"_referrer_domain"] = @properties.uri.href.match(/^(https*:\/\/.+)(\/.*)/)[1]
-      props[base_name+"_referrer_path"] = @properties.uri.href.match(/^(https*:\/\/.+)(\/.*)/)[2]
-    props[base_name+"_type"] = @properties.type
-    props[base_name+"_page_type"] = @properties.pageType()
-    props[base_name+"_page_name"] = @properties.pageName()
-    props[base_name+"_seach_terms"] = @properties.search_terms
-
+    props[base_name+"_source"]       = source
+    props[base_name+"_timestamp"]    = new Date()
+    props[base_name+"_type"]         = @properties.type
+    props[base_name+"_location_url"] = @properties.location.href if @properties.uri?
+    props[base_name+"_referrer_url"] = @properties.uri.href if @properties.uri?
     props

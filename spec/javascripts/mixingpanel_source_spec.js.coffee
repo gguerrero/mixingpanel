@@ -62,48 +62,45 @@ describe "MixingpanelSource", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://meh.kelisto.es")
       mps = new MixingpanelSource(mpp, append: false)
 
-      spyOn(mps, "writeReferenceTouch")
-      spyOn(mixpanel, "register")
+      spyOn(mps, "getFirstTouch")
+      spyOn(mps, "getLastTouch")
+      spyOn(mps, "getSource")
 
       mps.append()
 
-      expect(mixpanel.register).not.toHaveBeenCalled()
+      expect(mps.getFirstTouch).not.toHaveBeenCalled()
+      expect(mps.getLastTouch).not.toHaveBeenCalled()
+      expect(mps.getSource).not.toHaveBeenCalled()
 
     it "should set the first touch source property", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.google.com")
       mps = new MixingpanelSource(mpp, append: false)
 
-      spyOn(mps, "writeSource")
-      spyOn(mps, "writeLastTouch")
+      spyOn(mps, "getFirstTouch")
       spyOn(mps, "firstTouchIsExpired").and.returnValue(true)
-      spyOn(mixpanel, "register")
 
       mps.append()
 
-      expect(mixpanel.register).toHaveBeenCalled()
+      expect(mps.getFirstTouch).toHaveBeenCalled()
 
     it "shouldn't set the first touch property if it is already setted", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.google.com")
       mps = new MixingpanelSource(mpp, append: false)
 
-      spyOn(mps, "writeSource")
-      spyOn(mps, "writeReferenceTouch")
-      spyOn(mps, "writeLastTouch")
-      spyOn(mixpanel, "register")
+      spyOn(mps, "getFirstTouch")
       spyOn(mps, "firstTouchIsExpired").and.returnValue(false)
 
       mps.append()
 
-      expect(mixpanel.register).not.toHaveBeenCalled()
+      expect(mps.getFirstTouch).not.toHaveBeenCalled()
 
     it "should set the last touch source property", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
       mps = new MixingpanelSource(mpp, append: false)
 
-      spyOn(mps, "writeSource")
-      spyOn(mps, "writeFirstTouch")
       spyOn(mixpanel, "register")
 
+      debugger
       mps.append()
 
       source = mixpanel.register.calls.mostRecent().args[0].last_touch_source
@@ -113,41 +110,36 @@ describe "MixingpanelSource", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
       mps = new MixingpanelSource(mpp, append: false)
 
-      spyOn(mps, "writeFirstTouch")
-      spyOn(mps, "writeLastTouch")
       spyOn(mixpanel, "register")
       spyOn(mixpanel, "get_property").and.returnValue(undefined)
 
       mps.append()
 
-      prop = {}
-      prop[mps.sourceProperty] = ['Social']
-      expect(mixpanel.register).toHaveBeenCalledWith(prop)
+      source = mixpanel.register.calls.mostRecent().args[0].source
+      expect(source).toEqual(["Social"])
 
     it "should append value to source property if the last value isn't the same", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
       mps = new MixingpanelSource(mpp, append: false)
       array = ['Direct']
 
-      spyOn(mps, "writeFirstTouch")
-      spyOn(mps, "writeLastTouch")
       spyOn(mixpanel, "get_property").and.returnValue(array)
-      spyOn(array, "push")
+      spyOn(mixpanel, "register")
 
       mps.append()
 
-      expect(array.push).toHaveBeenCalledWith('Social')
+      source = mixpanel.register.calls.mostRecent().args[0].source
+      expect(source).toEqual(['Direct','Social'])
 
     it "shouldn't add value to source property if the last value is the same", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
       mps = new MixingpanelSource(mpp, append: false)
       array = ['Social']
 
-      spyOn(mps, "writeFirstTouch")
-      spyOn(mps, "writeLastTouch")
       spyOn(mixpanel, "get_property").and.returnValue(array)
-      spyOn(array, "push")
+      spyOn(mixpanel, "register")
 
       mps.append()
 
-      expect(array.push).not.toHaveBeenCalledWith('Social')
+      source = mixpanel.register.calls.mostRecent().args[0].source
+      expect(source).toEqual(['Social'])
