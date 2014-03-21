@@ -80,9 +80,6 @@ class @MixingpanelSource
 
     isNaN(first_touch_ms) or ((first_touch_ms + exp_days_ms) < current_time_ms)
 
-  getReferenceTouch: (value)->
-    @propertiesFor(value, "ref_touch")
-
   getFirstTouch: (value)->
     @propertiesFor(value, "first_touch")
 
