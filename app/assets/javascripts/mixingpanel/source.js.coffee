@@ -61,13 +61,13 @@ class @MixingpanelSource
   append: ->
     value = @getValue()
     allSources = {}
-    allSources = @getReferenceTouch(value)
+
     if @registerSource() and value?
       allSources = $.extend(allSources, @getFirstTouch(value)) if @firstTouchIsExpired()
       allSources = $.extend(allSources, @getLastTouch(value))
       allSources = $.extend(allSources, @getSource(value))
+      mixpanel.register(allSources)
 
-    mixpanel.register allSources
     allSources
 
   registerSource: ->
@@ -104,7 +104,5 @@ class @MixingpanelSource
     props = {}
     props[base_name+"_source"]       = source
     props[base_name+"_timestamp"]    = new Date()
-    props[base_name+"_type"]         = @properties.type
-    props[base_name+"_location_url"] = @properties.location.href if @properties.uri?
     props[base_name+"_referrer_url"] = @properties.uri.href if @properties.uri?
     props
