@@ -4,7 +4,7 @@ describe "MixingpanelProperties", ->
   
   it "should map URI and host", ->
     mpp = new MixingpanelProperties(@internal_domain, "http://www.example.com:8080/blah?meh#wat#wat")
-    expect(mpp.host).toBe("example.com:8080")
+    expect(mpp.host).toBe("example.com")
     expect(mpp.uri.protocol).toBe('http:')
     expect(mpp.uri.hostname).toBe('www.example.com')
     expect(mpp.uri.host).toBe('www.example.com:8080')
