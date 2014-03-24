@@ -3,7 +3,7 @@ class @MixingpanelProperties
     @location = @_getLocation(search)
     @referer = if url? then url else document.referrer
     @uri = @_getUri()
-    @host = if @uri.host? then @uri.host.toLowerCase().replace(/^www\./, '') else ""
+    @host = if @uri.hostname? then @uri.hostname.toLowerCase().replace(/^www\./, '') else ""
 
     @engine = @_getEngine()
     @search_terms = @_getSearchTerms()
@@ -85,7 +85,7 @@ class @MixingpanelProperties
 
   isInternal: ->
     domain = @internal_domain.split('.').slice(-2).join('.')
-    if @host.match("#{domain}$") then true else false
+    if @host.match(domain) then true else false
 
   isSocial: ->
     (@host.match(/busuu\.com$/) or
