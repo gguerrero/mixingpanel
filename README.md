@@ -116,7 +116,7 @@ That will generate the following *HTML* code:
 ```
 
 ## Track your Sources!
-The source feature tracks <strong>3 cool superproperties</strong> within all your *mixpanel* *events*.
+The source feature tracks <strong>2 cool superproperties</strong> within all your *mixpanel* *events*.
 The default behaviour for tracking sources is:
 
 * If *utm_campaign* appears in the URL params and the *utm_medium* param is different than 'email' the source will turn into **SEM**.
@@ -190,12 +190,9 @@ You can change this expiration days value by
       firstTouchExpirationDays: 15
 ```
 * <strong>last_touch_source</strong> set the current user source on your site.
-* <strong>source</strong> set and array of historical sources within the user navigation. This sources won't be repeated twice in a row, but it may be repeated along the source historical.
 
 As extra properties for **debug** aim:
 * <strong>first/last_timestamp</strong> set the timestamp in the moment of the tracking.
-* <strong>first/last_type</strong> set the type in the moment of the tracking.
-* <strong>first/last_location_url</strong> set the location URL in the moment of the tracking.
 * <strong>first/last_referrer_url</strong> set the referrer URL in the moment of the tracking.
 
 

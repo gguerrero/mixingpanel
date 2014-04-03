@@ -64,3 +64,7 @@ what were the data comming with each first and last superproperty in every momen
 
 * Pack all superproperties in a object and call mixpanel.register only once
 * Remove some not used debug properties
+
+## 0.24.0 (April 3, 2014)
+
+* Remove 'source' property to not overload cookies with the array

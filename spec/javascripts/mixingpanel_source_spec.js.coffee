@@ -64,13 +64,11 @@ describe "MixingpanelSource", ->
 
       spyOn(mps, "getFirstTouch")
       spyOn(mps, "getLastTouch")
-      spyOn(mps, "getSource")
 
       mps.append()
 
       expect(mps.getFirstTouch).not.toHaveBeenCalled()
       expect(mps.getLastTouch).not.toHaveBeenCalled()
-      expect(mps.getSource).not.toHaveBeenCalled()
 
     it "should set the first touch source property", ->
       mpp = new MixingpanelProperties("kelisto.es", "http://www.google.com")
@@ -105,41 +103,3 @@ describe "MixingpanelSource", ->
 
       source = mixpanel.register.calls.mostRecent().args[0].last_touch_source
       expect(source).toEqual("Social")
-
-    it "should add the first value to source property if it's undefined", ->
-      mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
-      mps = new MixingpanelSource(mpp, append: false)
-
-      spyOn(mixpanel, "register")
-      spyOn(mixpanel, "get_property").and.returnValue(undefined)
-
-      mps.append()
-
-      source = mixpanel.register.calls.mostRecent().args[0].source
-      expect(source).toEqual(["Social"])
-
-    it "should append value to source property if the last value isn't the same", ->
-      mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
-      mps = new MixingpanelSource(mpp, append: false)
-      array = ['Direct']
-
-      spyOn(mixpanel, "get_property").and.returnValue(array)
-      spyOn(mixpanel, "register")
-
-      mps.append()
-
-      source = mixpanel.register.calls.mostRecent().args[0].source
-      expect(source).toEqual(['Direct','Social'])
-
-    it "shouldn't add value to source property if the last value is the same", ->
-      mpp = new MixingpanelProperties("kelisto.es", "http://www.facebook.com")
-      mps = new MixingpanelSource(mpp, append: false)
-      array = ['Social']
-
-      spyOn(mixpanel, "get_property").and.returnValue(array)
-      spyOn(mixpanel, "register")
-
-      mps.append()
-
-      source = mixpanel.register.calls.mostRecent().args[0].source
-      expect(source).toEqual(['Social'])
