@@ -65,7 +65,6 @@ class @MixingpanelSource
     if @registerSource() and value?
       allSources = $.extend(allSources, @getFirstTouch(value)) if @firstTouchIsExpired()
       allSources = $.extend(allSources, @getLastTouch(value))
-      allSources = $.extend(allSources, @getSource(value))
       mixpanel.register(allSources)
 
     allSources
@@ -85,17 +84,6 @@ class @MixingpanelSource
 
   getLastTouch: (value)->
     @propertiesFor(value, "last_touch")
-
-  getSource: (value)->
-    sources = mixpanel.get_property(@sourceProperty)
-    if sources?
-      sources.push(value) if sources[sources.length-1] isnt value
-    else
-      sources = [value]
-
-    prop = {}
-    prop[@sourceProperty] = sources
-    prop
 
   propertiesFor: (source, base_name = "last_touch")->
     props = {}
