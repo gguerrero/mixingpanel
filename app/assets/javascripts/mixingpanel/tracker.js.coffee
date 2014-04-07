@@ -1,6 +1,7 @@
 class @MixingpanelTracker
   constructor: (options = {internal_domain: undefined, source: {}})->
     throw "'$' is not defined!! Ensure to call this constructor after $(document).ready" unless $?
+    @queue = new MixingpanelQueue()
     @properties = new MixingpanelProperties(options.internal_domain)
     @source = new MixingpanelSource(@properties, options.source)
 
