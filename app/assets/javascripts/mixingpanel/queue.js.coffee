@@ -9,20 +9,21 @@ class @MixingpanelQueue extends Array
     @promiseTimeout = 100
     @lockTimeout = 200
 
-    @executionLock = false
     @isReady = false
+    @executionLocked = false
 
     @_promiseRunner()
 
-  append: (name, callback) ->
-    @splice(0, 0, [name, callback])
+  append: (name, callback, params = []) ->
+    # TODO: Parse params on the callback call
+    @push([name, callback, params])
     @run()
 
   run: ->
-    return unless @isReady
-    @_runLock()
+    debugger
+    return unless @_runLock()
     while @length > 0
-      job = @pop()
+      job = @shift()
       console.log "Running job '#{job[0]}'"
       job[1].call(this)
     @_runUnlock()
@@ -42,18 +43,27 @@ class @MixingpanelQueue extends Array
 
     setTimeout =>
       clearInterval(@intervalID)
-    , (@promiseTimeout*40)
+    , (@promiseTimeout*60)
 
   _runLock: () ->
-    @executionLock = true unless @executionLock
-    
-    @lockID = setInterval =>
-      console.log "Some job is being executed"
-      unless @executionLock
-        @executionLock = true
+    if not @isReady or @executionLocked
+      # TODO: lockID should be override, otherwhise the older interval will never be cleared!!
+      @lockID = setInterval =>
+        console.log "Waiting for exection..."
+        if @isReady and not @executionLocked
+          @run()
+          clearInterval(@lockID)
+      , @lockTimeout
+
+      setTimeout =>
         clearInterval(@lockID)
-    , @lockTimeout
+      , (@lockTimeout*100)
+
+      false
+    else
+      @executionLocked = true
+      true
 
   _runUnlock: () ->
     console.log "Unlocking exection"
-    @executionLock = false
+    @executionLocked = false
