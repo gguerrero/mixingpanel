@@ -68,3 +68,9 @@ what were the data comming with each first and last superproperty in every momen
 ## 0.24.0 (April 3, 2014)
 
 * Remove 'source' property to not overload cookies with the array
+
+## 0.25.0 (May 14, 2014)
+
+* Add 'cookies' management interface
+* Use a cookie to manage first touch timestamp. That prevent from using the mixpanel
+'get_property' function! Finally!!
