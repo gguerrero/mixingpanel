@@ -19,7 +19,6 @@ class @MixingpanelCookies
     domain   = if opts.domain? then "; domain=#{opts.domain}" else ""
     path     = if opts.path? then "; path=#{opts.path}" else ""
     expires  = if opts.expires_at? then "; expires=#{opts.expires_at.toGMTString()}" else ""
-    session  = if opts.session? then "; session=#{opts.session}" else ""
 
     document.cookie = (keyValue + expires + path + domain + session)
     @[key] = value
