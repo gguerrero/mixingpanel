@@ -74,3 +74,8 @@ what were the data comming with each first and last superproperty in every momen
 * Add 'cookies' management interface
 * Use a cookie to manage first touch timestamp. That prevent from using the mixpanel
 'get_property' function! Finally!!
+
+## 0.26.0 (May 19, 2014)
+
+* Add 'tracked_form_tag' helper
+
