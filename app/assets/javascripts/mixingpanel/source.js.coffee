@@ -85,7 +85,7 @@ class @MixingpanelSource
     current_time_ms = (new Date()).getTime()
 
     opts =
-      domain: "." + @properties.internal_domain.match(/([^\.]+\.[^\.]+)$/)[1]
+      domain: "." + @properties.internal_domain.split(".").slice(-2).join(".")
       expires_at: new Date(current_time_ms + exp_days_ms)
 
     @cookies.set(@firstTimestampProperty, @firstTimestampProperty, opts)
