@@ -1,5 +1,6 @@
 class @MixingpanelSource
   constructor: (@properties, options = {}) ->
+    @cookies = new MixingpanelCookies()
     @expirationDays = options.firstTouchExpirationDays or 30
     @firstSourceProperty = "first_touch_source"
     @firstTimestampProperty = "first_touch_timestamp"
@@ -73,11 +74,21 @@ class @MixingpanelSource
     @utm.medium? or !@properties.isInternal()
 
   firstTouchIsExpired: ()->
-    first_touch_ms = (new Date(mixpanel.get_property(@firstTimestampProperty))).getTime()
+    if @cookies[@firstTimestampProperty]?
+      false
+    else
+      @setFirstTouchExpirationCookie()
+      true
+
+  setFirstTouchExpirationCookie: ()->
     exp_days_ms = @expirationDays*24*60*60*1000
     current_time_ms = (new Date()).getTime()
 
-    isNaN(first_touch_ms) or ((first_touch_ms + exp_days_ms) < current_time_ms)
+    opts =
+      domain: "." + @properties.internal_domain.match(/([^\.]+\.[^\.]+)$/)[1]
+      expires_at: new Date(current_time_ms + exp_days_ms)
+
+    @cookies.set(@firstTimestampProperty, @firstTimestampProperty, opts)
 
   getFirstTouch: (value)->
     @propertiesFor(value, "first_touch")
