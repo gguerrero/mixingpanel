@@ -79,7 +79,3 @@ what were the data comming with each first and last superproperty in every momen
 
 * Add 'tracked_form_tag' helper
 
-## 0.27.0 (May 19, 2014)
-
-* Reverting Cookies change because of a f***** capybara test
-
