@@ -20,7 +20,7 @@ class @MixingpanelCookies
     path     = if opts.path? then "; path=#{opts.path}" else ""
     expires  = if opts.expires_at? then "; expires=#{opts.expires_at.toGMTString()}" else ""
 
-    document.cookie = (keyValue + expires + path + domain + session)
+    document.cookie = (keyValue + expires + path + domain)
     @[key] = value
 
   delete: (key)->
