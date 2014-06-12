@@ -48,8 +48,8 @@ class @MixingpanelTracker
     event: $(element).data('event')
     properties: $(element).data('extraProps')
 
-  track: (event, properties) ->
-    mixpanel.track event, properties
+  track: (event, properties, callback) ->
+    mixpanel.track event, properties, callback
 
   track_links: (selector, event, properties) ->
     mixpanel.track_links(selector, event, properties)
