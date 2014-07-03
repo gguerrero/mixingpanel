@@ -83,3 +83,10 @@ what were the data comming with each first and last superproperty in every momen
 
 * Renable cookies new functionality and remove session param from cookie set
 
+## 0.29.0 (Jun 12, 2014)
+
+* Add callback on ```track``` main core function
+
+## 0.30.0 (Jul 03, 2014)
+
+* Add UTM params and location URL to last/first touch sources
