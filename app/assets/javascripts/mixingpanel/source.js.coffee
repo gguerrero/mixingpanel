@@ -91,7 +91,6 @@ class @MixingpanelSource
     @cookies.set(@firstTimestampProperty, @firstTimestampProperty, opts)
 
   getFirstTouch: (value)->
-    debugger
     @propertiesFor(value, "first_touch")
 
   getLastTouch: (value)->
