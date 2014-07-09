@@ -100,11 +100,11 @@ class @MixingpanelSource
     props = {}
     props[base_name+"_source"]       = source
     props[base_name+"_timestamp"]    = new Date()
-    props[base_name+"_referrer_url"] = @properties.uri.href if @properties.uri?
-    props[base_name+"_location_url"] = @properties.location.href if @properties.location?
-    props[base_name+"_utm_source"]   = @utm.source
-    props[base_name+"_utm_medium"]   = @utm.medium
-    props[base_name+"_utm_term"]     = @utm.term
-    props[base_name+"_utm_content"]  = @utm.content
-    props[base_name+"_utm_campaign"] = @utm.campaign
+    props[base_name+"_referrer_url"] = @properties.uri.href || null
+    props[base_name+"_location_url"] = @properties.location.href || null
+    props[base_name+"_utm_source"]   = @utm.source || null
+    props[base_name+"_utm_medium"]   = @utm.medium || null
+    props[base_name+"_utm_term"]     = @utm.term || null
+    props[base_name+"_utm_content"]  = @utm.content || null
+    props[base_name+"_utm_campaign"] = @utm.campaign || null
     props

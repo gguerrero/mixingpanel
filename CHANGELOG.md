@@ -90,3 +90,11 @@ what were the data comming with each first and last superproperty in every momen
 ## 0.30.0 (Jul 03, 2014)
 
 * Add UTM params and location URL to last/first touch sources
+
+## 0.30.1 (Jul 09, 2014)
+
+* Set UTM Params to 'null' for overriding source properties if UTM are not present.
+
+## 0.30.2 (Jul 09, 2014)
+
+* Set location and referrer sources to 'null' for overriding source properties if those are not present.
