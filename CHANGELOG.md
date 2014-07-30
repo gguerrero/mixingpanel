@@ -98,3 +98,9 @@ what were the data comming with each first and last superproperty in every momen
 ## 0.30.2 (Jul 09, 2014)
 
 * Set location and referrer sources to 'null' for overriding source properties if those are not present.
+
+## 0.31 (Jul 30, 2014)
+
+* Create tracking "by pass" in order to prevent some OS/Browser to track the same way.
+* Split Android browser version 4.0 to track on same events.
+

@@ -3,6 +3,7 @@ class @MixingpanelTracker
     throw "'$' is not defined!! Ensure to call this constructor after $(document).ready" unless $?
     @properties = new MixingpanelProperties(options.internal_domain)
     @source = new MixingpanelSource(@properties, options.source)
+    @byPass = new MixingpanelByPass() 
 
   bind: ->
     @_bindActions()
@@ -49,6 +50,7 @@ class @MixingpanelTracker
     properties: $(element).data('extraProps')
 
   track: (event, properties, callback) ->
+    [event, properties] = @byPass.parse(event, properties)
     mixpanel.track event, properties, callback
 
   track_links: (selector, event, properties) ->
