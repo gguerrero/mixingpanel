@@ -6,8 +6,8 @@ class @MixingpanelByPass
     @ua = @parser.getResult()
 
   parse: (event, properties = {}) ->
-    if @ua.os.name is "Android" and @ua.browser.version is "4.0"
-      [ "#{event} [Android Mobile v4.0]",
+    if @ua.os.name is "Android" and @ua.browser.name isnt "Chrome"
+      [ "#{event} [Android Mobile]",
         $.extend(properties, {user_agent: @ua.ua}) ]
     else
       [ event, properties ]
