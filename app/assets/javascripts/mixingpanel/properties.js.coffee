@@ -108,7 +108,7 @@ class @MixingpanelProperties
   pageName: ->
     if (@location.pathname == '/')
       "Home"
-    else if $('body').data('page-name')?
+    else if $('body').data('mp')["Page name"]?
       $('body').data('page-name')
     else if $('article').data('page-name')?
       $('article').data('page-name')
@@ -128,4 +128,7 @@ class @MixingpanelProperties
       "unknown"
 
   pageType: ->
-    $("body").data('page-type') or "Default"
+    $("body").data('mp')["Page type"] or "Default"
+
+  globals: ->
+    $("body").data('mp') or {}

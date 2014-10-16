@@ -1,6 +1,7 @@
 class @MixingpanelTracker
   constructor: (options = {internal_domain: undefined, source: {}})->
     throw "'$' is not defined!! Ensure to call this constructor after $(document).ready" unless $?
+    @appendGlobals = if options.appendGlobals? then options.appendGlobals else true
     @properties = new MixingpanelProperties(options.internal_domain)
     @source = new MixingpanelSource(@properties, options.source)
 
@@ -52,12 +53,15 @@ class @MixingpanelTracker
     properties: $(element).data('extraProps')
 
   track: (event, properties, callback) ->
+    properties = $.extend(@properties.globals(), properties) if @appendGlobals
     mixpanel.track event, properties, callback
 
   track_links: (selector, event, properties) ->
+    properties = $.extend(@properties.globals(), properties) if @appendGlobals
     mixpanel.track_links(selector, event, properties)
 
   track_forms: (selector, event, properties) ->
+    properties = $.extend(@properties.globals(), properties) if @appendGlobals
     mixpanel.track_forms(selector, event, properties)
 
   register: (properties) ->

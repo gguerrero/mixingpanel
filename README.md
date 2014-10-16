@@ -196,6 +196,63 @@ As extra properties for **debug** aim:
 * <strong>first/last_referrer_url</strong> set the referrer URL in the moment of the tracking.
 
 
+## Appending *body data attributes*
+By default *Mixingpanel* will append the body data attributes under 'mp' *on every track*, i.e:
+```javascript
+$('body').data('mp');
+```
+
+You may set different mixpanel properties from your controller or views by using the helpers provided on the gem ```add_mixpanel_attributes```, or by manually set the variables ```@mp_section```, ```@mp_owner```, ```@mp_product```, ```@mp_subproduct```, ```@mp_item``` and ```@mp_extras```.
+
+So, in your *application.html* add this:
+```HTML+ERB
+<body data="<%= { mp: global_mixpanel_attributes } %>">
+  ...
+</body>
+```
+
+And on your views and on your controllers:
+```ruby
+class ApplicationController
+  include MixingpanelHelper
+end
+
+class UserController < ApplicationController
+  def index
+    add_mixpanel_attributes(section: "home", owner: "seo",
+                            product: "insurances", subproduct: "car insurance",
+                            extras: {foo: "bar"})
+  end
+end
+```
+
+or
+```ruby
+def index
+  @mp_section    = "home"
+  @mp_owner      = "seo"
+  @mp_product    = "insurances"
+  @mp_subproduct = "car insurance"
+  @mp_extras     = {foo: "bar"}
+end
+```
+
+#### Turning off the global properties append
+If you don't want to auto append all this properties on your events add the following config on your ```Mixingpanel``` initializer:
+
+```coffeescript
+$ ->
+  mpp = new MixingpanelTracker
+    appendGlobals: false
+
+  # ...
+  # DO SOME STUFF
+  # ...
+
+  mpp.bind()
+```
+
+
 ## Running *Jasmine* test suite
 As these code is writed on [CoffeScript](http://coffeescript.org/), the *Jasmine* test suite requieres to compile all the specs, source files, helper files and fixtures to JS first, so that's why *[jasmine/compiler.rb](https://github.com/gguerrero/mixingpanel/blob/master/lib/jasmine/compiler.rb)* exists. See also [Pivotal CI solution](http://pivotallabs.com/writing-and-running-jasmine-specs-with-rails-3-1-and-coffeescript/)
 
