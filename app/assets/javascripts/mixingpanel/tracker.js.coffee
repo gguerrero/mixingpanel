@@ -21,15 +21,18 @@ class @MixingpanelTracker
         "link": document.URL
       
       @track_links(selector, @_setTrackData(element, properties)...)
+      true
 
   _formTracker: ->
     $('form.trackme').each (index, element)=>
       selector = @_selectorIdFor(element)
       @track_forms(selector, @_setTrackData(element)...)
+      true
 
   _eventTracker: ->
     $('div.mpevent.trackme').each (index, element)=>
       @track(@_setTrackData(element)...)
+      true
 
   _selectorIdFor: (element) ->
     if element.id is null or element.id == ""

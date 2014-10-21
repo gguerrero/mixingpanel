@@ -98,3 +98,8 @@ what were the data comming with each first and last superproperty in every momen
 ## 0.30.2 (Jul 09, 2014)
 
 * Set location and referrer sources to 'null' for overriding source properties if those are not present.
+
+## 0.30.3 (Oct 21, 2014)
+
+* Return 'true' on each document element iteration when tracking so the loop will continue until the last element
+ 
