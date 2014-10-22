@@ -53,15 +53,15 @@ class @MixingpanelTracker
     properties: $(element).data('extraProps')
 
   track: (event, properties, callback) ->
-    properties = $.extend(@properties.globals(), properties) if @appendGlobals
+    $.extend(properties, @properties.globals()) if @appendGlobals
     mixpanel.track event, properties, callback
 
   track_links: (selector, event, properties) ->
-    properties = $.extend(@properties.globals(), properties) if @appendGlobals
+    $.extend(properties, @properties.globals()) if @appendGlobals
     mixpanel.track_links(selector, event, properties)
 
   track_forms: (selector, event, properties) ->
-    properties = $.extend(@properties.globals(), properties) if @appendGlobals
+    $.extend(properties, @properties.globals()) if @appendGlobals
     mixpanel.track_forms(selector, event, properties)
 
   register: (properties) ->
