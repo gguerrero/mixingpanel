@@ -103,3 +103,7 @@ what were the data comming with each first and last superproperty in every momen
 
 * Return 'true' on each document element iteration when tracking so the loop will continue until the last element
  
+## 0.31.0 (Nov 5, 2014)
+
+* The moment is here! Carte blanche on all the sources as google analytics does :)
+
