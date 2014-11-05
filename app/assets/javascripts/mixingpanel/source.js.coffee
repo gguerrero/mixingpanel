@@ -73,6 +73,13 @@ class @MixingpanelSource
   registerSource: ->
     @utm.medium? or !@properties.isInternal()
 
+  tachanSource: ->
+    words = @utm.medium.split(/\s|_/)
+    new_words = []
+    for word in words
+      new_words.push (word[0].toUpperCase() + word.slice(1))
+    new_words.join(" ")
+
   firstTouchIsExpired: ()->
     if @cookies[@firstTimestampProperty]?
       false
