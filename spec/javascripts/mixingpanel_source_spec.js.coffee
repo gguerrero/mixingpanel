@@ -98,7 +98,6 @@ describe "MixingpanelSource", ->
 
       spyOn(mixpanel, "register")
 
-      debugger
       mps.append()
 
       source = mixpanel.register.calls.mostRecent().args[0].last_touch_source

@@ -107,3 +107,8 @@ what were the data comming with each first and last superproperty in every momen
 
 * The moment is here! Carte blanche on all the sources as google analytics does :)
 
+## 0.40.0 (Oct 16, 2014)
+
+* Body data 'mp' attributes are append as properties to all the tracked events by default
+* Ability to turn of/on auto global properties append on *MixingpanelTracker*
+
