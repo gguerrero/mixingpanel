@@ -106,7 +106,7 @@ class @MixingpanelSource
   propertiesFor: (source, base_name = "last_touch")->
     props = {}
     props[base_name+"_source"]       = source
-    props[base_name+"_timestamp"]    = new Date()
+    props[base_name+"_timestamp"]    = (new Date()).toISOString()
     props[base_name+"_referrer_url"] = @properties.uri.href || null
     props[base_name+"_location_url"] = @properties.location.href || null
     props[base_name+"_utm_source"]   = @utm.source || null
