@@ -112,3 +112,6 @@ what were the data comming with each first and last superproperty in every momen
 * Body data 'mp' attributes are append as properties to all the tracked events by default
 * Ability to turn of/on auto global properties append on *MixingpanelTracker*
 
+## 0.41.0 (Mar 3, 2015)
+
+* New getter for mixpanel attributes: ```mixpanel_attributes```

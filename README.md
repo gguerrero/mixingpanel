@@ -219,9 +219,11 @@ end
 
 class UserController < ApplicationController
   def index
-    add_mixpanel_attributes(section: "home", owner: "seo",
-                            product: "insurances", subproduct: "car insurance",
-                            extras: {foo: "bar"})
+    add_mixpanel_attributes section: "home",
+                            owner: "seo",
+                            product: "insurances",
+                            subproduct: "car insurance",
+                            foo: "bar"
   end
 end
 ```
@@ -235,6 +237,13 @@ def index
   @mp_subproduct = "car insurance"
   @mp_extras     = {foo: "bar"}
 end
+```
+
+You can even retrieve any of the already set properties with:
+```ruby
+  mixpanel_attributes
+  mixpanel_attributes[:product]
+  mixpanel_attributes[:item]
 ```
 
 #### Turning off the global properties append
