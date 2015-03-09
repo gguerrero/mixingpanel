@@ -119,3 +119,7 @@ what were the data comming with each first and last superproperty in every momen
 ## 0.42.0 (Mar 9, 2015)
 
 * Remove some ```first_touch_*``` superproperties to avoid cookie overflow.
+
+## 0.43.0 (Mar 9, 2015)
+
+* **NO RAILS DEPENDENCY!**
