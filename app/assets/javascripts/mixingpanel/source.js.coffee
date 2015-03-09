@@ -98,20 +98,16 @@ class @MixingpanelSource
     @cookies.set(@firstTimestampProperty, @firstTimestampProperty, opts)
 
   getFirstTouch: (value)->
-    @propertiesFor(value, "first_touch")
+    first_touch_source:    value
+    first_touch_timestamp: (new Date()).toISOString()
 
   getLastTouch: (value)->
-    @propertiesFor(value, "last_touch")
-
-  propertiesFor: (source, base_name = "last_touch")->
-    props = {}
-    props[base_name+"_source"]       = source
-    props[base_name+"_timestamp"]    = (new Date()).toISOString()
-    props[base_name+"_referrer_url"] = @properties.uri.href || null
-    props[base_name+"_location_url"] = @properties.location.href || null
-    props[base_name+"_utm_source"]   = @utm.source || null
-    props[base_name+"_utm_medium"]   = @utm.medium || null
-    props[base_name+"_utm_term"]     = @utm.term || null
-    props[base_name+"_utm_content"]  = @utm.content || null
-    props[base_name+"_utm_campaign"] = @utm.campaign || null
-    props
+    last_touch_source:       value
+    last_touch_timestamp:    (new Date()).toISOString()
+    last_touch_referrer_url: @properties.uri.href || null
+    last_touch_location_url: @properties.location.href || null
+    last_touch_utm_source:   @utm.source || null
+    last_touch_utm_medium:   @utm.medium || null
+    last_touch_utm_term:     @utm.term || null
+    last_touch_utm_content:  @utm.content || null
+    last_touch_utm_campaign: @utm.campaign || null

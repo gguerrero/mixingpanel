@@ -115,3 +115,7 @@ what were the data comming with each first and last superproperty in every momen
 ## 0.41.0 (Mar 3, 2015)
 
 * New getter for mixpanel attributes: ```mixpanel_attributes```
+
+## 0.42.0 (Mar 9, 2015)
+
+* Remove some ```first_touch_*``` superproperties to avoid cookie overflow.
