@@ -192,8 +192,10 @@ You can change this expiration days value by
 * <strong>last_touch_source</strong> set the current user source on your site.
 
 As extra properties for **debug** aim:
-* <strong>first/last_timestamp</strong> set the timestamp in the moment of the tracking.
-* <strong>first/last_referrer_url</strong> set the referrer URL in the moment of the tracking.
+* <strong>first/last_touch_timestamp</strong> set the timestamp in the moment of the tracking.
+* <strong>last_touch_referrer_url</strong> set the referrer URL in the moment of the tracking.
+* <strong>last_touch_location_url</strong> set the current URL in the moment of the tracking.
+* <strong>last_touch_utm_*</strong> set the ```utm``` parameters extracted from the URL.
 
 
 ## Appending *body data attributes*
