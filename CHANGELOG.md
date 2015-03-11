@@ -123,3 +123,8 @@ what were the data comming with each first and last superproperty in every momen
 ## 0.43.0 (Mar 9, 2015)
 
 * **NO RAILS DEPENDENCY!**
+
+## 0.44.0 (Mar 11, 2015)
+
+* Less 'last_touch' superproperties in order to no overflow cookies.
+
