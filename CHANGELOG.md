@@ -128,3 +128,9 @@ what were the data comming with each first and last superproperty in every momen
 
 * Less 'last_touch' superproperties in order to no overflow cookies.
 
+## 0.45.0 (Mar 11, 2015)
+
+* Mixpanel Init function receive options.
+* Rails configuration for Mixingpanel.
+* Mixingpanel generator for initialize configuration.
+
