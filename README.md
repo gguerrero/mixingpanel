@@ -24,9 +24,9 @@ $ rails generate mixingpanel:config
 ```
 
 This config is based on the [official mixpanel configuration](https://mixpanel.com/help/reference/javascript-full-api-reference#mixpanel.set_config),
-you can have a look at the accepted options.
+you can have a look at the allowed options.
 
-Once the you have your initializer installed you may want to change options:
+Once you have your initializer installed you may want to change options:
 
 ```ruby
 Mixingpanel.configure do |config|
@@ -38,8 +38,8 @@ Mixingpanel.configure do |config|
 end
 ```
 
-Remember to have a coherence between project options, otherwise the cookie may not be read between projects
-and it will be a mess to discover why.
+*Remember to have a coherence between project options, otherwise the cookie may not be read between projects
+and it will be a mess to discover why!*
 
 
 ## Usage
