@@ -104,8 +104,6 @@ class @MixingpanelSource
   getLastTouch: (value)->
     last_touch_source:       value
     last_touch_timestamp:    (new Date()).toISOString()
-    last_touch_referrer_url: @properties.uri.href || null
-    last_touch_location_url: @properties.location.href || null
     last_touch_utm_source:   @utm.source || null
     last_touch_utm_medium:   @utm.medium || null
     last_touch_utm_term:     @utm.term || null
