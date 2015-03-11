@@ -17,6 +17,31 @@ $ bundle
 ```
 
 
+## Config
+Run this generator to copy the config on your project initializers as ```mixingpanel.rb```.
+```bash
+$ rails generate mixingpanel:config
+```
+
+This config is based on the [official mixpanel configuration](https://mixpanel.com/help/reference/javascript-full-api-reference#mixpanel.set_config),
+you can have a look at the accepted options.
+
+Once the you have your initializer installed you may want to change options:
+
+```ruby
+Mixingpanel.configure do |config|
+  config.track_pageview         = false
+  config.cross_subdomain_cookie = false
+  config.cookie_name            = "third-party-mp"
+  config.cookie_expiration      = 30
+  config.track_links_timeout    = 100
+end
+```
+
+Remember to have a coherence between project options, otherwise the cookie may not be read between projects
+and it will be a mess to discover why.
+
+
 ## Usage
 
 ### Rendering
