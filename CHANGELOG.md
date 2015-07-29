@@ -102,7 +102,7 @@ what were the data comming with each first and last superproperty in every momen
 ## 0.30.3 (Oct 21, 2014)
 
 * Return 'true' on each document element iteration when tracking so the loop will continue until the last element
- 
+
 ## 0.31.0 (Nov 5, 2014)
 
 * The moment is here! Carte blanche on all the sources as google analytics does :)
@@ -134,3 +134,6 @@ what were the data comming with each first and last superproperty in every momen
 * Rails configuration for Mixingpanel.
 * Mixingpanel generator for initialize configuration.
 
+## 0.46.0 (Jul 29, 2015)
+
+* Allow to init custom sessions from url querystring.

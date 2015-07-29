@@ -4,4 +4,5 @@
 //= require mixingpanel/cookies
 //= require mixingpanel/properties
 //= require mixingpanel/source
+//= require mixingpanel/session
 //= require mixingpanel/tracker

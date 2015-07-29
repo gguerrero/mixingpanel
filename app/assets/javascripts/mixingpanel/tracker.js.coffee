@@ -4,6 +4,7 @@ class @MixingpanelTracker
     @appendGlobals = if options.appendGlobals? then options.appendGlobals else true
     @properties = new MixingpanelProperties(options.internal_domain)
     @source = new MixingpanelSource(@properties, options.source)
+    @session = new MixingpanelSession(@properties, options.source)
 
   bind: ->
     @_bindActions()
