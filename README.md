@@ -286,10 +286,11 @@ $ ->
   mpp.bind()
 ```
 
-## Custom sessions using mixpanel superproperty.
+## Custom sessions using mixpanel superproperty
 
-You can create a custom session which use mp_session_id superproperty using the query param "mp_session_start=YOURSESSIONID" in the url.
-This is useful when you are doing tests and want to regroup all your tracking in multiple devices. You can close the custom session with the query param "mp_session_end=ANY".
+You can create a custom session which use mp_session_id superproperty using the query param ```mp_session_start=YOURSESSIONID``` in the url.
+
+This is useful when you are doing tests and want to regroup all your tracking in multiple devices. You can close the custom session with the query param ```mp_session_end=ANY```.
 
 
 ## Running *Jasmine* test suite
