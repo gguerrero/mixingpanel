@@ -156,7 +156,7 @@ As well as any company would like to have it's own way to track sources, you can
 ```coffeescript
 $ ->
   mpp = new MixingpanelTracker
-    source: 
+    source:
       values:
         SEM_PERMANENT: "SEM Permanent"
         SEM_EXPERIMENT: "SEM Experiment"
@@ -191,7 +191,7 @@ If you don't want to automatically append sources on *MixingpanelTracker* initia
 ```coffeescript
 $ ->
   mpp = new MixingpanelTracker
-    source: 
+    source:
       append: false
 
   # ...
@@ -285,6 +285,12 @@ $ ->
 
   mpp.bind()
 ```
+
+## Custom sessions using mixpanel superproperty
+
+You can create a custom session which use mp_session_id superproperty using the query param ```mp_session_start=YOURSESSIONID``` in the url.
+
+This is useful when you are doing tests and want to regroup all your tracking in multiple devices. You can close the custom session with the query param ```mp_session_end=ANY```.
 
 
 ## Running *Jasmine* test suite
