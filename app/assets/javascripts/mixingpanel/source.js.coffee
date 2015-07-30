@@ -75,9 +75,11 @@ class @MixingpanelSource
     @utm.medium? or !@properties.isInternal() or @isReferringDomainException()
 
   isReferringDomainException: () ->
+    return false unless @properties.uri.hostname?
+
     for referringDomain in @referringDomainExceptions
-      regexp = new RegExp "^https?://.*.?#{referringDomain}"
-      return true if @properties.referer.match(regexp)
+      regexp = new RegExp ".*#{referringDomain}"
+      return true if @properties.uri.hostname.match(regexp)
     false
 
   tachanSource: ->
