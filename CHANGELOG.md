@@ -137,3 +137,9 @@ what were the data comming with each first and last superproperty in every momen
 ## 0.46.0 (Jul 29, 2015)
 
 * Allow to init custom sessions from url querystring.
+
+## 0.47.0 (Jul 30, 2015)
+
+* Source is setted now if referring domain is on a exception list.
+* Referring domain exception list can be configure on initialization.
+

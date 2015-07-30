@@ -188,6 +188,7 @@ $ ->
 ```
 
 If you don't want to automatically append sources on *MixingpanelTracker* initializer, you could do so with:
+
 ```coffeescript
 $ ->
   mpp = new MixingpanelTracker
@@ -220,6 +221,19 @@ As extra properties for **debug** aim:
 * <strong>first/last_touch_timestamp</strong> set the timestamp in the moment of the tracking.
 * <strong>last_touch_utm_*</strong> set the ```utm``` parameters extracted from the URL.
 
+### Custom referring domain exceptions
+If you need to track/set a source in specials cases, even the fact that the referring domain is internal, you can add a list of whitelisted referring domains:
+
+```coffeescript
+  mpp = new MixingpanelTracker
+    source:
+      referringDomainExceptions:
+      	[ 'foo.bar.org',
+      	  'baz.bar.org',
+      	  'meh.bar.org' ]
+```
+
+**DO NOT SET IN ANY CASE YOUR OWN DOMAIN ('bar.org' on the example case) OR THE SOURCE WILL BE RECALCULATED ON EVERY PAGE VISIT**
 
 ## Appending *body data attributes*
 By default *Mixingpanel* will append the body data attributes under 'mp' *on every track*, i.e:
