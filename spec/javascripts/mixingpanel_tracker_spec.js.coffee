@@ -2,7 +2,7 @@ describe "MixingpanelTracker", ->
   beforeEach ->
     jasmine.getFixtures().fixturesPath = "__spec__/fixtures"
     @mixingpanel_tracker = new MixingpanelTracker
-      internal_domain: "kelisto.es"
+      internal_domain: "bar.org"
 
   describe "link tracker", ->
     it "should append body global properties when tracking", ->

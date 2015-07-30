@@ -1,6 +1,6 @@
 describe "MixingpanelProperties", ->
   beforeEach ->
-    @internal_domain = "kelisto.es"
+    @internal_domain = "bar.org"
   
   it "should map URI and host", ->
     mpp = new MixingpanelProperties(@internal_domain, "http://www.example.com:8080/blah?meh#wat#wat")
@@ -28,7 +28,7 @@ describe "MixingpanelProperties", ->
       expect(mpp.engine).toBe("bing")
 
     it "should ignore a regular website", ->
-      mpp = new MixingpanelProperties(@internal_domain, "http://meh.kelisto.es?q=meh#wat#wat")
+      mpp = new MixingpanelProperties(@internal_domain, "http://meh.bar.org?q=meh#wat#wat")
       expect(mpp.engine).toBeNull()
       expect(mpp.search_terms).toEqual([])
 
@@ -38,7 +38,7 @@ describe "MixingpanelProperties", ->
       expect(mpp.search_terms).toEqual([])
 
     it "should get the keywords for a google referrer", ->
-      mpp = new MixingpanelProperties(@internal_domain, "http://www.google.com.ar/url?sa=t&rct=j&q=compra%20de%20vehiculos%20en%20el%20extranjero%20por%20internet&source=web&cd=4&ved=0CFMQFjAD&url=http%3A%2F%2Fwww.kelisto.es")
+      mpp = new MixingpanelProperties(@internal_domain, "http://www.google.com.ar/url?sa=t&rct=j&q=compra%20de%20vehiculos%20en%20el%20extranjero%20por%20internet&source=web&cd=4&ved=0CFMQFjAD&url=http%3A%2F%2Fwww.bar.org")
       expect(mpp.search_terms).toEqual([ 'compra', 'de', 'vehiculos', 'en', 'el', 'extranjero', 'por', 'internet' ])
 
     it "should get the keywords for a yahoo referrer", ->
@@ -62,21 +62,21 @@ describe "MixingpanelProperties", ->
       expect(mpp.search_terms).toEqual([])
 
     it "should concatenate the keywords for a seo referrer", ->
-      mpp = new MixingpanelProperties(@internal_domain, "http://www.google.com.ar/url?sa=t&rct=j&q=compra%20de%20vehiculos%20en%20el%20extranjero%20por%20internet&source=web&cd=4&ved=0CFMQFjAD&url=http%3A%2F%2Fwww.kelisto.es")
+      mpp = new MixingpanelProperties(@internal_domain, "http://www.google.com.ar/url?sa=t&rct=j&q=compra%20de%20vehiculos%20en%20el%20extranjero%20por%20internet&source=web&cd=4&ved=0CFMQFjAD&url=http%3A%2F%2Fwww.bar.org")
       expect(mpp.search_terms_string).toEqual('compra de vehiculos en el extranjero por internet')
 
   describe "check if internal", ->
-    it "should return True if kelisto.es domain", ->
-      mpp = new MixingpanelProperties(@internal_domain, "http://meh.kelisto.es?meh#wat#wat")
+    it "should return True if bar.org domain", ->
+      mpp = new MixingpanelProperties(@internal_domain, "http://meh.bar.org?meh#wat#wat")
       expect(mpp.isInternal()).toBe(true)
 
-    it "should return False if not kelisto.es domain", ->
-      mpp = new MixingpanelProperties(@internal_domain, "http://meh.helisto.es?kelisto.es#wat#wat")
+    it "should return False if not bar.org domain", ->
+      mpp = new MixingpanelProperties(@internal_domain, "http://meh.helisto.es?bar.org#wat#wat")
       expect(mpp.isInternal()).toBe(false)
 
   describe "check if social", ->
     it "should return False if not social", ->
-      mpp = new MixingpanelProperties(@internal_domain, "http://meh.kelisto.es?meh#wat#wat")
+      mpp = new MixingpanelProperties(@internal_domain, "http://meh.bar.org?meh#wat#wat")
       expect(mpp.isSocial()).toBe(false)
 
     it "should return True if twitter", ->
@@ -125,7 +125,7 @@ describe "MixingpanelProperties", ->
       expect(mpp.type).toEqual("Display")
 
     it "should get 'Referral' for an internal referrer", ->
-      mpp = new MixingpanelProperties(@internal_domain, "http://www.kelisto.es/")
+      mpp = new MixingpanelProperties(@internal_domain, "http://www.bar.org/")
       expect(mpp.type).toEqual("Referral")
 
     it "should get 'Referral' for a facebook referrer", ->
