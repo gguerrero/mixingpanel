@@ -143,3 +143,8 @@ what were the data comming with each first and last superproperty in every momen
 * Source is setted now if referring domain is on a exception list.
 * Referring domain exception list can be configure on initialization.
 
+## 0.47.1 (Aug 3, 2015)
+
+* Source '_setUTM' now can receive query string object as param, so from 'value'
+callback, that function can be used in some special cases.
+
