@@ -18,8 +18,7 @@ class @MixingpanelSource
     @_setOptions(options)
     @append() unless options.append is false
 
-  _setUTM: ->
-    qsObj = @properties.location.query_string
+  _setUTM: (qsObj = @properties.location.query_string) ->
     @utm =
       source: qsObj.utm_source
       medium: qsObj.utm_medium
