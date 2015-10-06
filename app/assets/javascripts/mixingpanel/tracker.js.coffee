@@ -4,6 +4,7 @@ class @MixingpanelTracker
     @appendGlobals = if options.appendGlobals? then options.appendGlobals else true
     @properties = new MixingpanelProperties(options.internal_domain)
     @source = new MixingpanelSource(@properties, options.source)
+    @parameterizer = new MixingpanelParameterizer(@properties, options.tracking_params)
     @session = new MixingpanelSession(@properties, options.source)
 
   bind: ->
@@ -55,14 +56,17 @@ class @MixingpanelTracker
 
   track: (event, properties, callback) ->
     $.extend(properties, @properties.globals()) if @appendGlobals
+    $.extend(properties, @parameterizer.read())
     mixpanel.track event, properties, callback
 
   track_links: (selector, event, properties) ->
     $.extend(properties, @properties.globals()) if @appendGlobals
+    $.extend(properties, @parameterizer.read())
     mixpanel.track_links(selector, event, properties)
 
   track_forms: (selector, event, properties) ->
     $.extend(properties, @properties.globals()) if @appendGlobals
+    $.extend(properties, @parameterizer.read())
     mixpanel.track_forms(selector, event, properties)
 
   register: (properties) ->
