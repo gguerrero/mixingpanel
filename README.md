@@ -140,6 +140,7 @@ That will generate the following *HTML* code:
 </form>
 ```
 
+
 ## Track your Sources!
 The source feature tracks <strong>2 cool superproperties</strong> within all your *mixpanel* *events*.
 The default behaviour for tracking sources is:
@@ -299,6 +300,42 @@ $ ->
 
   mpp.bind()
 ```
+
+## Tracking URL params
+This functionality allows you to track URL params as properties on any event.
+You may create a whitelist of the URL parameters you allow to be tracked.
+Something you may know about **tracking params**:
+
+- They will be only be tracked if these params come from an external source, i.e, any source not from your own domain.
+- They will stop tracking after you visit your site from another external source that do not contains those params (the cookie that contains the params will be deleted).
+- These params will override any other property named equal. So keep in mind that any other tracking that contains a property with the same name that a tracking param, that value, will be written by the value on the **tracking params cookie**.
+
+To setup your params whitelist you should add them on the **tracker** initializer like this:
+
+```Coffeescript
+  mpp = new MixingpanelTracker
+    tracking_params: ['foo', 'bar', 'baz']
+```
+
+## Tracking properties priority!!
+**Be careful at this point**, there are many ways of tracking properties, but they will be merged in order, so maybe you'll find some of then are been override and you won't know why. Properties tracking order is:
+
+1. [Global body attributes](#appending-body-data-attributes)
+2. [Other properties](#helpers)
+3. [Tracking URL params](#tracking-url-params)
+
+For example, you're tracking a property that is already on ```$('body').data().mp``` attributes:
+
+```Coffeescript
+$('body').data.mp
+=> Object {foo: 'bar'}
+
+@mixingpanel_tracker.track('Visit page', foo: 'foo')
+```
+
+In the case above, you'll get **foo** property with *bar* value on Mixpanel, because the **Global body attributes** have a more important priority on tracking.
+Same way will happen with **tracking URL params**.
+
 
 ## Custom sessions using mixpanel superproperty
 

@@ -148,3 +148,10 @@ what were the data comming with each first and last superproperty in every momen
 * Source '_setUTM' now can receive query string object as param, so from 'value'
 callback, that function can be used in some special cases.
 
+## 0.48.0 (Oct 06, 2015)
+
+* Tracking whitelist parameters.
+* Config whitelist engagement.
+* Cookie store for whitelisted params.
+* Tracked params always override other params if there is a match on name.
+
