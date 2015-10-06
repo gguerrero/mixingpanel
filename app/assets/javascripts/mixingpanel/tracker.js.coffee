@@ -54,20 +54,21 @@ class @MixingpanelTracker
     event: $(element).data('event')
     properties: $(element).data('extraProps')
 
+  trackingProperties: (properties) ->
+    # This extension shows the properties override priority, from bottom to top
+    $.extend {},
+             @parameterizer.read(),
+             properties,
+             (@properties.globals() if @appendGlobals)
+
   track: (event, properties, callback) ->
-    $.extend(properties, @properties.globals()) if @appendGlobals
-    $.extend(properties, @parameterizer.read())
-    mixpanel.track event, properties, callback
+    mixpanel.track event, @trackingProperties(properties), callback
 
   track_links: (selector, event, properties) ->
-    $.extend(properties, @properties.globals()) if @appendGlobals
-    $.extend(properties, @parameterizer.read())
-    mixpanel.track_links(selector, event, properties)
+    mixpanel.track_links(selector, event, @trackingProperties(properties))
 
   track_forms: (selector, event, properties) ->
-    $.extend(properties, @properties.globals()) if @appendGlobals
-    $.extend(properties, @parameterizer.read())
-    mixpanel.track_forms(selector, event, properties)
+    mixpanel.track_forms(selector, event, @trackingProperties(properties))
 
   register: (properties) ->
     mixpanel.register(properties)

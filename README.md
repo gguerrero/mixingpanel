@@ -320,9 +320,9 @@ To setup your params whitelist you should add them on the **tracker** initialize
 ## Tracking properties priority!!
 **Be careful at this point**, there are many ways of tracking properties, but they will be merged in order, so maybe you'll find some of then are been override and you won't know why. Properties tracking order is:
 
-1. [Tracking URL params](#tracking-url-params)
-2. [Global body attributes](#appending-body-data-attributes)
-3. [Other properties](#helpers)
+1. [Global body attributes](#appending-body-data-attributes)
+2. [Other properties](#helpers)
+3. [Tracking URL params](#tracking-url-params)
 
 For example, you're tracking a property that is already on ```$('body').data().mp``` attributes:
 
