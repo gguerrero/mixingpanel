@@ -2,6 +2,26 @@
 
 High level utilities for tracking events with *Mixpanel* in your Rails project.
 
+### Index
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Rendering](#rendering)
+  - [JS Include](#js-include)
+  - [Environment](#environment)
+  - [Setup](#setup)
+  - [Helpers](#helpers)
+4. [Track your Sources!](#track-your-sources)
+  - [Custom referring domain exceptions](#custom-referring-domain-exceptions)
+5. [Appending *body data attributes*](#appending-body-data-attributes)
+  - [Turning off the global properties append](#turning-off-the-global-properties-append)
+6. [Tracking URL params](#tracking-url-params)
+7. [Tracking properties priority!!](#tracking-properties-priority)
+8. [Custom sessions using mixpanel superproperty](#custom-sessions-using-mixpanel-superproperty)
+9. [Running *Jasmine* test suite](#running-jasmine-test-suite)
+10. [ToDo](#todo)
+11. [License](#license)
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -286,7 +306,7 @@ You can even retrieve any of the already set properties with:
   mixpanel_attributes[:item]
 ```
 
-#### Turning off the global properties append
+### Turning off the global properties append
 If you don't want to auto append all this properties on your events add the following config on your ```Mixingpanel``` initializer:
 
 ```coffeescript
