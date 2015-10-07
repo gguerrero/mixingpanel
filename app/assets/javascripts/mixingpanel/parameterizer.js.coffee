@@ -1,9 +1,11 @@
 class @MixingpanelParameterizer
-  constructor: (@properties, @whitelist = []) ->
+  constructor: (@properties) ->
     @cookies    = new MixingpanelCookies()
+    @whitelist  = mixingpanel_options.tracking_params
     @cookieName = 'mp_tracking_params'
 
-    @delete() and @write() unless @properties.isInternal()
+    if not @properties.isInternal() or @properties.isExternalDomainException()
+      @delete() and @write()
 
   write: ->
     opts =

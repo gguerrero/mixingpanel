@@ -1,5 +1,5 @@
 class @MixingpanelSession
-  constructor: (@properties, options = {}) ->
+  constructor: (@properties) ->
     @_parseSession()
     if @mp_session.start
         mixpanel.register(@_sessionRegister())
