@@ -1,8 +1,7 @@
 class @MixingpanelSource
-  constructor: (@properties, options = {}) ->
+  constructor: (@properties) ->
     @cookies = new MixingpanelCookies()
-    @referringDomainExceptions = options.referringDomainExceptions or []
-    @expirationDays = options.firstTouchExpirationDays or 30
+    @expirationDays = mixingpanel_options.source.firstTouchExpirationDays or 30
     @firstSourceProperty = "first_touch_source"
     @firstTimestampProperty = "first_touch_timestamp"
     @lastSourceProperty = "last_touch_source"
@@ -15,8 +14,8 @@ class @MixingpanelSource
       SOCIAL: "Social"
       REFERRAL: "Referral"
     @_setUTM()
-    @_setOptions(options)
-    @append() unless options.append is false
+    @_setOptions(mixingpanel_options.source)
+    @append() unless mixingpanel_options.source.append is false
 
   _setUTM: (qsObj = @properties.location.query_string) ->
     @utm =
@@ -71,15 +70,7 @@ class @MixingpanelSource
     allSources
 
   registerSource: ->
-    @utm.medium? or !@properties.isInternal() or @isReferringDomainException()
-
-  isReferringDomainException: () ->
-    return false unless @properties.uri.hostname?
-
-    for referringDomain in @referringDomainExceptions
-      regexp = new RegExp ".*#{referringDomain}"
-      return true if @properties.uri.hostname.match(regexp)
-    false
+    @utm.medium? or !@properties.isInternal() or @properties.isExternalDomainException()
 
   tachanSource: ->
     words = @utm.medium.split(/\s|_/)

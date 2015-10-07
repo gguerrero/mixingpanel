@@ -1,5 +1,8 @@
 class @MixingpanelProperties
-  constructor: (@internal_domain = window.location.host, url, search) ->
+  constructor: (internal_domain, url, search) ->
+    @internal_domain = (internal_domain or
+                        mixingpanel_options.internal_domain or
+                        window.location.host)
     @location = @_getLocation(search)
     @referer = if url? then url else document.referrer
     @uri = @_getUri()
@@ -87,6 +90,15 @@ class @MixingpanelProperties
     domain = @internal_domain.split('.').slice(-2).join('.')
     if @host.match(domain) then true else false
 
+  # There are some exception on domains that we'll consider as external anyway
+  isExternalDomainException: ->
+    return false unless @uri.hostname?
+
+    for referringDomain in mixingpanel_options.external_domains
+      regexp = new RegExp ".*#{referringDomain}"
+      return true if @uri.hostname.match(regexp)
+    false
+
   isSocial: ->
     (@host.match(/busuu\.com$/) or
      @host.match(/delicious\.com$/) or
@@ -105,6 +117,7 @@ class @MixingpanelProperties
      @host.match(/t\.co$/) or
      @host.match(/xing\.com$/))?
 
+  # DEPRECATION WARNING: this function are not used for a real purpose
   pageName: ->
     if (@location.pathname == '/')
       "Home"
@@ -127,6 +140,7 @@ class @MixingpanelProperties
     else
       "unknown"
 
+  # DEPRECATION WARNING: this function are not used for a real purpose
   pageType: ->
     return "Default" unless $('body').data('mp')?
     $("body").data('mp')["Page type"] or "Default"

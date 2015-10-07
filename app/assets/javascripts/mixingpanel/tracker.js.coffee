@@ -1,11 +1,24 @@
 class @MixingpanelTracker
-  constructor: (options = {internal_domain: undefined, source: {}})->
+  constructor: (options = {})->
     throw "'$' is not defined!! Ensure to call this constructor after $(document).ready" unless $?
-    @appendGlobals = if options.appendGlobals? then options.appendGlobals else true
-    @properties = new MixingpanelProperties(options.internal_domain)
-    @source = new MixingpanelSource(@properties, options.source)
-    @parameterizer = new MixingpanelParameterizer(@properties, options.tracking_params)
-    @session = new MixingpanelSession(@properties, options.source)
+
+    # General pupose options for all classes
+    window.mixingpanel_options = $.extend({}, @defaultOptions, options)
+
+    @appendGlobals = if mixingpanel_options.appendGlobals?
+      mixingpanel_options.appendGlobals
+    else
+      true
+    @properties = new MixingpanelProperties()
+    @source = new MixingpanelSource(@properties)
+    @parameterizer = new MixingpanelParameterizer(@properties)
+    @session = new MixingpanelSession(@properties)
+
+  defaultOptions:
+    internal_domain: undefined,
+    external_domains: [],
+    tracking_params: [],
+    source: {}
 
   bind: ->
     @_bindActions()
