@@ -1,6 +1,7 @@
 describe "MixingpanelSource", ->
 
   it "should parse UTM params successfully", ->
+    setMixingpanelOptions(source: {append: false})
     mpp = new MixingpanelProperties("bar.org",
                                     "http://google.es/",
                                     "?utm_source=foo&utm_medium=bar&utm_term=this+that&utm_content=zap&utm_campaign=meh")
@@ -15,35 +16,40 @@ describe "MixingpanelSource", ->
 
   describe "register source", ->
     it "should return true when utm_medium is present", ->
+      setMixingpanelOptions(source: {append: false})
       mpp = new MixingpanelProperties("bar.org",
                                       "http://foo.bar.org",
                                       "?utm_source=foo&utm_medium=bar&utm_term=this+that&utm_content=zap&utm_campaign=meh")
-      mps = new MixingpanelSource(mpp, append: false)
+      mps = new MixingpanelSource(mpp)
 
       expect(mps.registerSource()).toBe(true)
 
     it "should return true when referrer is not internal", ->
       mpp = new MixingpanelProperties("bar.org", "http://google.es")
-      mps = new MixingpanelSource(mpp, append: false)
+      mps = new MixingpanelSource(mpp)
 
       expect(mps.registerSource()).toBe(true)
 
     it "should return true when exceptional referring domains are given", ->
+      setMixingpanelOptions
+        external_domains: ['foo.org','bar.org'],
+        source:
+          append: false
+
       mpp = new MixingpanelProperties("bar.org", "http://foo.bar.org")
-      mps = new MixingpanelSource(mpp,
-        referringDomainExceptions: ['foo.org', 'bar.org']
-        append: false
-      )
+      mps = new MixingpanelSource(mpp)
       expect(mps.registerSource()).toBe(true)
 
     it "should return false in any other case", ->
+      setMixingpanelOptions
+        external_domains: ['foo.org','baz.org'],
+        source:
+          append: false
+
       mpp = new MixingpanelProperties("bar.org",
                                       "http://foo.bar.org",
                                       "?utm_foo=bar&utm_baz=bar")
-      mps = new MixingpanelSource(mpp,
-        referringDomainExceptions: ['foo.org', 'baz.org']
-        append: false
-      )
+      mps = new MixingpanelSource(mpp)
       expect(mps.registerSource()).toBe(false)      
     
   describe "retrieve source value", ->
@@ -90,8 +96,9 @@ describe "MixingpanelSource", ->
 
   describe "append value on source super-properties", ->
     it "shouldn't set any property if it's and internal referer", ->
+      setMixingpanelOptions(source: {append: false})
       mpp = new MixingpanelProperties("bar.org", "http://foo.bar.org")
-      mps = new MixingpanelSource(mpp, append: false)
+      mps = new MixingpanelSource(mpp)
 
       spyOn(mps, "getFirstTouch")
       spyOn(mps, "getLastTouch")
@@ -102,8 +109,9 @@ describe "MixingpanelSource", ->
       expect(mps.getLastTouch).not.toHaveBeenCalled()
 
     it "should set the first touch source property", ->
+      setMixingpanelOptions(source: {append: false})
       mpp = new MixingpanelProperties("bar.org", "http://www.google.com")
-      mps = new MixingpanelSource(mpp, append: false)
+      mps = new MixingpanelSource(mpp)
 
       spyOn(mps, "getFirstTouch")
       spyOn(mps, "firstTouchIsExpired").and.returnValue(true)
@@ -113,8 +121,9 @@ describe "MixingpanelSource", ->
       expect(mps.getFirstTouch).toHaveBeenCalled()
 
     it "shouldn't set the first touch property if it is already setted", ->
+      setMixingpanelOptions(source: {append: false})
       mpp = new MixingpanelProperties("bar.org", "http://www.google.com")
-      mps = new MixingpanelSource(mpp, append: false)
+      mps = new MixingpanelSource(mpp)
 
       spyOn(mps, "getFirstTouch")
       spyOn(mps, "firstTouchIsExpired").and.returnValue(false)
@@ -124,8 +133,9 @@ describe "MixingpanelSource", ->
       expect(mps.getFirstTouch).not.toHaveBeenCalled()
 
     it "should set the last touch source property", ->
+      setMixingpanelOptions(source: {append: false})
       mpp = new MixingpanelProperties("bar.org", "http://www.facebook.com")
-      mps = new MixingpanelSource(mpp, append: false)
+      mps = new MixingpanelSource(mpp)
 
       spyOn(mixpanel, "register")
 

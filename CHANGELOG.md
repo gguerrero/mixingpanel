@@ -155,3 +155,8 @@ callback, that function can be used in some special cases.
 * Cookie store for whitelisted params.
 * Tracked params always override other params if there is a match on name.
 
+## 0.50.0 (Oct 07, 2015)
+
+* External domains are now listed as a generic options
+* Options are now managed on a window level object
+

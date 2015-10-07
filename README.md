@@ -11,14 +11,13 @@ High level utilities for tracking events with *Mixpanel* in your Rails project.
   - [Setup](#setup)
   - [Helpers](#helpers)
 4. [Track your Sources!](#track-your-sources)
-  - [Custom referring domain exceptions](#custom-referring-domain-exceptions)
 5. [Appending *body data attributes*](#appending-body-data-attributes)
   - [Turning off the global properties append](#turning-off-the-global-properties-append)
 6. [Tracking URL params](#tracking-url-params)
-7. [Tracking properties priority!!](#tracking-properties-priority)
-8. [Custom sessions using mixpanel superproperty](#custom-sessions-using-mixpanel-superproperty)
-9. [Running *Jasmine* test suite](#running-jasmine-test-suite)
-10. [ToDo](#todo)
+7. [External domains exceptions](#external-domains-exceptions)
+8. [Tracking properties priority!!](#tracking-properties-priority)
+9. [Custom sessions using mixpanel superproperty](#custom-sessions-using-mixpanel-superproperty)
+10. [Running *Jasmine* test suite](#running-jasmine-test-suite)
 11. [License](#license)
 
 
@@ -242,19 +241,6 @@ As extra properties for **debug** aim:
 * <strong>first/last_touch_timestamp</strong> set the timestamp in the moment of the tracking.
 * <strong>last_touch_utm_*</strong> set the ```utm``` parameters extracted from the URL.
 
-### Custom referring domain exceptions
-If you need to track/set a source in specials cases, even the fact that the referring domain is internal, you can add a list of whitelisted referring domains:
-
-```coffeescript
-  mpp = new MixingpanelTracker
-    source:
-      referringDomainExceptions:
-      	[ 'foo.bar.org',
-      	  'baz.bar.org',
-      	  'meh.bar.org' ]
-```
-
-**DO NOT SET IN ANY CASE YOUR OWN DOMAIN ('bar.org' on the example case) OR THE SOURCE WILL BE RECALCULATED ON EVERY PAGE VISIT**
 
 ## Appending *body data attributes*
 By default *Mixingpanel* will append the body data attributes under 'mp' *on every track*, i.e:
@@ -337,6 +323,22 @@ To setup your params whitelist you should add them on the **tracker** initialize
     tracking_params: ['foo', 'bar', 'baz']
 ```
 
+## External domains exceptions
+If you need to track/set a source or URL param in specials cases, even the fact that the referring domain is internal, you can add a list of whitelisted referring domains:
+
+```coffeescript
+  mpp = new MixingpanelTracker
+    external_domains:
+     [ 'foo.bar.org', 'baz.bar.org', 'meh.bar.org' ]
+```
+
+Remember, that list checks domains when:
+
+1. Adding a **source**
+2. Adding **URL params** for tracking
+
+**DO NOT SET IN ANY CASE YOUR OWN DOMAIN ('bar.org' on the example case) OR THE SOURCE WILL BE RECALCULATED ON EVERY PAGE VISIT**
+
 ## Tracking properties priority!!
 **Be careful at this point**, there are many ways of tracking properties, but they will be merged in order, so maybe you'll find some of then are been override and you won't know why. Properties tracking order is:
 
@@ -378,9 +380,6 @@ To run the Jasmine test suit as CI:
 ```bash
 $ rake jasmine:ci:coffee
 ```
-
-## ToDo
-* Add **rspec** test for testing Rails helpers.
 
 ## License
 This project uses [*MIT-LICENSE*](http://en.wikipedia.org/wiki/MIT_License).
