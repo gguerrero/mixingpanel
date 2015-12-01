@@ -66,6 +66,8 @@ class @MixingpanelSource
       allSources = $.extend(allSources, @getFirstTouch(value)) if @firstTouchIsExpired()
       allSources = $.extend(allSources, @getLastTouch(value))
       mixpanel.register(allSources)
+    else
+      mixpanel.register(last_touch_start_session: false)
 
     allSources
 
@@ -102,10 +104,10 @@ class @MixingpanelSource
     first_touch_timestamp: (new Date()).toISOString()
 
   getLastTouch: (value)->
-    last_touch_source:       value
-    last_touch_timestamp:    (new Date()).toISOString()
-    last_touch_utm_source:   @utm.source || null
-    last_touch_utm_medium:   @utm.medium || null
-    last_touch_utm_term:     @utm.term || null
-    last_touch_utm_content:  @utm.content || null
-    last_touch_utm_campaign: @utm.campaign || null
+    last_touch_source:        value
+    last_touch_start_session: true
+    last_touch_utm_source:    @utm.source   || null
+    last_touch_utm_medium:    @utm.medium   || null
+    last_touch_utm_term:      @utm.term     || null
+    last_touch_utm_content:   @utm.content  || null
+    last_touch_utm_campaign:  @utm.campaign || null

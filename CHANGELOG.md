@@ -160,3 +160,7 @@ callback, that function can be used in some special cases.
 * External domains are now listed as a generic options
 * Options are now managed on a window level object
 
+## 0.60.0 (Dic 01, 2015)
+
+* Add 'last_touch_start_session' to determine wether 'last_touch_*' attributes did track first time.
+* Add tests for source properties including 'last_touch_start_session'.
