@@ -6,6 +6,8 @@ describe "MixingpanelSession", ->
     @judgmentDate = new Date(1997, 8, 29)
     jasmine.clock().mockDate(@judgmentDate)
     
+  afterAll ->
+    jasmine.clock().uninstall()
 
   describe "start session", ->
     it "should detect the mp_session_start", ->

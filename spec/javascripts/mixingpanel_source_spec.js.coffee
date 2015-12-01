@@ -1,4 +1,17 @@
 describe "MixingpanelSource", ->
+<<<<<<< Updated upstream
+=======
+  beforeAll ->
+    timerCallback = jasmine.createSpy("timerCallback");
+    jasmine.clock().install()
+    
+    # WoW SKYNET is here!!
+    @judgmentDate = new Date(1997, 8, 29)
+    jasmine.clock().mockDate(@judgmentDate)
+>>>>>>> Stashed changes
+
+  afterAll ->
+    jasmine.clock().uninstall()
 
   it "should parse UTM params successfully", ->
     setMixingpanelOptions(source: {append: false})
@@ -143,3 +156,43 @@ describe "MixingpanelSource", ->
 
       source = mixpanel.register.calls.mostRecent().args[0].last_touch_source
       expect(source).toEqual("Social")
+
+  describe "append properties", ->
+    it "should register append props on first session load", ->
+      setMixingpanelOptions(source: {append: false})
+
+      expectedProperties =
+        first_touch_source:       'SEM'
+        first_touch_timestamp:    (new Date()).toISOString()
+        last_touch_source:        'SEM'
+        last_touch_start_session: true
+        last_touch_utm_source:    'foo'
+        last_touch_utm_medium:    'ppc'
+        last_touch_utm_term:      null
+        last_touch_utm_content:   null
+        last_touch_utm_campaign:  'bar'
+
+      mpp = new MixingpanelProperties("bar.org",
+                                      "http://google.es/",
+                                      "?utm_source=foo&utm_medium=ppc&utm_campaign=bar")
+      mps = new MixingpanelSource(mpp)
+
+      spyOn(mixpanel, 'register')
+      mps.append()
+
+      registrationArgs = mixpanel.register.calls.mostRecent().args[0]
+
+      expect(registrationArgs).toEqual(expectedProperties)
+
+    it "should register false on last_touch_start_session on internal load", ->
+      setMixingpanelOptions(source: {append: false})
+
+      mpp = new MixingpanelProperties("bar.org",
+                                      "http://www.bar.org/")
+      mps = new MixingpanelSource(mpp)
+
+      spyOn(mixpanel, 'register')
+      mps.append()
+
+      registrationArgs = mixpanel.register.calls.mostRecent().args[0]
+      expect(registrationArgs).toEqual(last_touch_start_session: false)
