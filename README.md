@@ -239,6 +239,7 @@ You can change this expiration days value by
 
 As extra properties for **debug** aim:
 * <strong>first/last_touch_timestamp</strong> set the timestamp in the moment of the tracking.
+* <strong>last_touch_start_session</strong> set to *true* on the first session navigation point, otherwise is *false*.
 * <strong>last_touch_utm_*</strong> set the ```utm``` parameters extracted from the URL.
 
 

@@ -105,6 +105,7 @@ class @MixingpanelSource
 
   getLastTouch: (value)->
     last_touch_source:        value
+    last_touch_timestamp:     (new Date()).toISOString()
     last_touch_start_session: true
     last_touch_utm_source:    @utm.source   || null
     last_touch_utm_medium:    @utm.medium   || null

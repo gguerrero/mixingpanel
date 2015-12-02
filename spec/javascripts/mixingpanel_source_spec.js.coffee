@@ -1,6 +1,5 @@
 describe "MixingpanelSource", ->
-<<<<<<< Updated upstream
-=======
+
   beforeAll ->
     timerCallback = jasmine.createSpy("timerCallback");
     jasmine.clock().install()
@@ -8,7 +7,6 @@ describe "MixingpanelSource", ->
     # WoW SKYNET is here!!
     @judgmentDate = new Date(1997, 8, 29)
     jasmine.clock().mockDate(@judgmentDate)
->>>>>>> Stashed changes
 
   afterAll ->
     jasmine.clock().uninstall()
@@ -165,6 +163,7 @@ describe "MixingpanelSource", ->
         first_touch_source:       'SEM'
         first_touch_timestamp:    (new Date()).toISOString()
         last_touch_source:        'SEM'
+        last_touch_timestamp:     (new Date()).toISOString()
         last_touch_start_session: true
         last_touch_utm_source:    'foo'
         last_touch_utm_medium:    'ppc'
