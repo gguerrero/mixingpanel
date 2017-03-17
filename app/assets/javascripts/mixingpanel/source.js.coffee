@@ -1,7 +1,7 @@
 class @MixingpanelSource
-  constructor: (@properties, options = {}) ->
+  constructor: (@properties) ->
     @cookies = new MixingpanelCookies()
-    @expirationDays = options.firstTouchExpirationDays or 30
+    @expirationDays = mixingpanel_options.source.firstTouchExpirationDays or 30
     @firstSourceProperty = "first_touch_source"
     @firstTimestampProperty = "first_touch_timestamp"
     @lastSourceProperty = "last_touch_source"
@@ -14,11 +14,10 @@ class @MixingpanelSource
       SOCIAL: "Social"
       REFERRAL: "Referral"
     @_setUTM()
-    @_setOptions(options)
-    @append() unless options.append is false
+    @_setOptions(mixingpanel_options.source)
+    @append() unless mixingpanel_options.source.append is false
 
-  _setUTM: ->
-    qsObj = @properties.location.query_string
+  _setUTM: (qsObj = @properties.location.query_string) ->
     @utm =
       source: qsObj.utm_source
       medium: qsObj.utm_medium
@@ -67,11 +66,20 @@ class @MixingpanelSource
       allSources = $.extend(allSources, @getFirstTouch(value)) if @firstTouchIsExpired()
       allSources = $.extend(allSources, @getLastTouch(value))
       mixpanel.register(allSources)
+    else
+      mixpanel.register(last_touch_start_session: false)
 
     allSources
 
   registerSource: ->
-    @utm.medium? or !@properties.isInternal()
+    @utm.medium? or !@properties.isInternal() or @properties.isExternalDomainException()
+
+  tachanSource: ->
+    words = @utm.medium.split(/\s|_/)
+    new_words = []
+    for word in words
+      new_words.push (word[0].toUpperCase() + word.slice(1))
+    new_words.join(" ")
 
   firstTouchIsExpired: ()->
     if @cookies[@firstTimestampProperty]?
@@ -85,26 +93,22 @@ class @MixingpanelSource
     current_time_ms = (new Date()).getTime()
 
     opts =
+      path: '/'
       domain: "." + @properties.internal_domain.split(".").slice(-2).join(".")
       expires_at: new Date(current_time_ms + exp_days_ms)
 
     @cookies.set(@firstTimestampProperty, @firstTimestampProperty, opts)
 
   getFirstTouch: (value)->
-    @propertiesFor(value, "first_touch")
+    first_touch_source:    value
+    first_touch_timestamp: (new Date()).toISOString()
 
   getLastTouch: (value)->
-    @propertiesFor(value, "last_touch")
-
-  propertiesFor: (source, base_name = "last_touch")->
-    props = {}
-    props[base_name+"_source"]       = source
-    props[base_name+"_timestamp"]    = new Date()
-    props[base_name+"_referrer_url"] = @properties.uri.href || null
-    props[base_name+"_location_url"] = @properties.location.href || null
-    props[base_name+"_utm_source"]   = @utm.source || null
-    props[base_name+"_utm_medium"]   = @utm.medium || null
-    props[base_name+"_utm_term"]     = @utm.term || null
-    props[base_name+"_utm_content"]  = @utm.content || null
-    props[base_name+"_utm_campaign"] = @utm.campaign || null
-    props
+    last_touch_source:        value
+    last_touch_timestamp:     (new Date()).toISOString()
+    last_touch_start_session: true
+    last_touch_utm_source:    @utm.source   || null
+    last_touch_utm_medium:    @utm.medium   || null
+    last_touch_utm_term:      @utm.term     || null
+    last_touch_utm_content:   @utm.content  || null
+    last_touch_utm_campaign:  @utm.campaign || null

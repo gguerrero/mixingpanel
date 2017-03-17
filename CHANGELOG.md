@@ -99,8 +99,68 @@ what were the data comming with each first and last superproperty in every momen
 
 * Set location and referrer sources to 'null' for overriding source properties if those are not present.
 
-## 0.31 (Jul 30, 2014)
+## 0.30.3 (Oct 21, 2014)
 
-* Create tracking "by pass" in order to prevent some OS/Browser to track the same way.
-* Split Android browser version 4.0 to track on same events.
+* Return 'true' on each document element iteration when tracking so the loop will continue until the last element
 
+## 0.31.0 (Nov 5, 2014)
+
+* The moment is here! Carte blanche on all the sources as google analytics does :)
+
+## 0.40.0 (Oct 16, 2014)
+
+* Body data 'mp' attributes are append as properties to all the tracked events by default
+* Ability to turn of/on auto global properties append on *MixingpanelTracker*
+
+## 0.41.0 (Mar 3, 2015)
+
+* New getter for mixpanel attributes: ```mixpanel_attributes```
+
+## 0.42.0 (Mar 9, 2015)
+
+* Remove some ```first_touch_*``` superproperties to avoid cookie overflow.
+
+## 0.43.0 (Mar 9, 2015)
+
+* **NO RAILS DEPENDENCY!**
+
+## 0.44.0 (Mar 11, 2015)
+
+* Less 'last_touch' superproperties in order to no overflow cookies.
+
+## 0.45.0 (Mar 11, 2015)
+
+* Mixpanel Init function receive options.
+* Rails configuration for Mixingpanel.
+* Mixingpanel generator for initialize configuration.
+
+## 0.46.0 (Jul 29, 2015)
+
+* Allow to init custom sessions from url querystring.
+
+## 0.47.0 (Jul 30, 2015)
+
+* Source is setted now if referring domain is on a exception list.
+* Referring domain exception list can be configure on initialization.
+
+## 0.47.1 (Aug 3, 2015)
+
+* Source '_setUTM' now can receive query string object as param, so from 'value'
+callback, that function can be used in some special cases.
+
+## 0.48.0 (Oct 06, 2015)
+
+* Tracking whitelist parameters.
+* Config whitelist engagement.
+* Cookie store for whitelisted params.
+* Tracked params always override other params if there is a match on name.
+
+## 0.50.0 (Oct 07, 2015)
+
+* External domains are now listed as a generic options
+* Options are now managed on a window level object
+
+## 0.60.0 (Dic 01, 2015)
+
+* Add 'last_touch_start_session' to determine wether 'last_touch_*' attributes did track first time.
+* Add tests for source properties including 'last_touch_start_session'.

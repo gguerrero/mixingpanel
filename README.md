@@ -2,6 +2,25 @@
 
 High level utilities for tracking events with *Mixpanel* in your Rails project.
 
+### Index
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Rendering](#rendering)
+  - [JS Include](#js-include)
+  - [Environment](#environment)
+  - [Setup](#setup)
+  - [Helpers](#helpers)
+4. [Track your Sources!](#track-your-sources)
+5. [Appending *body data attributes*](#appending-body-data-attributes)
+  - [Turning off the global properties append](#turning-off-the-global-properties-append)
+6. [Tracking URL params](#tracking-url-params)
+7. [External domains exceptions](#external-domains-exceptions)
+8. [Tracking properties priority!!](#tracking-properties-priority)
+9. [Custom sessions using mixpanel superproperty](#custom-sessions-using-mixpanel-superproperty)
+10. [Running *Jasmine* test suite](#running-jasmine-test-suite)
+11. [License](#license)
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -15,6 +34,31 @@ And then execute:
 ```bash
 $ bundle
 ```
+
+
+## Config
+Run this generator to copy the config on your project initializers as ```mixingpanel.rb```.
+```bash
+$ rails generate mixingpanel:config
+```
+
+This config is based on the [official mixpanel configuration](https://mixpanel.com/help/reference/javascript-full-api-reference#mixpanel.set_config),
+you can have a look at the allowed options.
+
+Once you have your initializer installed you may want to change options:
+
+```ruby
+Mixingpanel.configure do |config|
+  config.track_pageview         = false
+  config.cross_subdomain_cookie = false
+  config.cookie_name            = "third-party-mp"
+  config.cookie_expiration      = 30
+  config.track_links_timeout    = 100
+end
+```
+
+*Remember to have a coherence between project options, otherwise the cookie may not be read between projects
+and it will be a mess to discover why!*
 
 
 ## Usage
@@ -115,6 +159,7 @@ That will generate the following *HTML* code:
 </form>
 ```
 
+
 ## Track your Sources!
 The source feature tracks <strong>2 cool superproperties</strong> within all your *mixpanel* *events*.
 The default behaviour for tracking sources is:
@@ -131,7 +176,7 @@ As well as any company would like to have it's own way to track sources, you can
 ```coffeescript
 $ ->
   mpp = new MixingpanelTracker
-    source: 
+    source:
       values:
         SEM_PERMANENT: "SEM Permanent"
         SEM_EXPERIMENT: "SEM Experiment"
@@ -163,10 +208,11 @@ $ ->
 ```
 
 If you don't want to automatically append sources on *MixingpanelTracker* initializer, you could do so with:
+
 ```coffeescript
 $ ->
   mpp = new MixingpanelTracker
-    source: 
+    source:
       append: false
 
   # ...
@@ -192,8 +238,133 @@ You can change this expiration days value by
 * <strong>last_touch_source</strong> set the current user source on your site.
 
 As extra properties for **debug** aim:
-* <strong>first/last_timestamp</strong> set the timestamp in the moment of the tracking.
-* <strong>first/last_referrer_url</strong> set the referrer URL in the moment of the tracking.
+* <strong>first/last_touch_timestamp</strong> set the timestamp in the moment of the tracking.
+* <strong>last_touch_start_session</strong> set to *true* on the first session navigation point, otherwise is *false*.
+* <strong>last_touch_utm_*</strong> set the ```utm``` parameters extracted from the URL.
+
+
+## Appending *body data attributes*
+By default *Mixingpanel* will append the body data attributes under 'mp' *on every track*, i.e:
+```javascript
+$('body').data('mp');
+```
+
+You may set different mixpanel properties from your controller or views by using the helpers provided on the gem ```add_mixpanel_attributes```, or by manually set the variables ```@mp_section```, ```@mp_owner```, ```@mp_product```, ```@mp_subproduct```, ```@mp_item``` and ```@mp_extras```.
+
+So, in your *application.html* add this:
+```HTML+ERB
+<body data="<%= { mp: global_mixpanel_attributes } %>">
+  ...
+</body>
+```
+
+And on your views and on your controllers:
+```ruby
+class ApplicationController
+  include MixingpanelHelper
+end
+
+class UserController < ApplicationController
+  def index
+    add_mixpanel_attributes section: "home",
+                            owner: "seo",
+                            product: "insurances",
+                            subproduct: "car insurance",
+                            foo: "bar"
+  end
+end
+```
+
+or
+```ruby
+def index
+  @mp_section    = "home"
+  @mp_owner      = "seo"
+  @mp_product    = "insurances"
+  @mp_subproduct = "car insurance"
+  @mp_extras     = {foo: "bar"}
+end
+```
+
+You can even retrieve any of the already set properties with:
+```ruby
+  mixpanel_attributes
+  mixpanel_attributes[:product]
+  mixpanel_attributes[:item]
+```
+
+### Turning off the global properties append
+If you don't want to auto append all this properties on your events add the following config on your ```Mixingpanel``` initializer:
+
+```coffeescript
+$ ->
+  mpp = new MixingpanelTracker
+    appendGlobals: false
+
+  # ...
+  # DO SOME STUFF
+  # ...
+
+  mpp.bind()
+```
+
+## Tracking URL params
+This functionality allows you to track URL params as properties on any event.
+You may create a whitelist of the URL parameters you allow to be tracked.
+Something you may know about **tracking params**:
+
+- They will be only be tracked if these params come from an external source, i.e, any source not from your own domain.
+- They will stop tracking after you visit your site from another external source that do not contains those params (the cookie that contains the params will be deleted).
+- These params will override any other property named equal. So keep in mind that any other tracking that contains a property with the same name that a tracking param, that value, will be written by the value on the **tracking params cookie**.
+
+To setup your params whitelist you should add them on the **tracker** initializer like this:
+
+```Coffeescript
+  mpp = new MixingpanelTracker
+    tracking_params: ['foo', 'bar', 'baz']
+```
+
+## External domains exceptions
+If you need to track/set a source or URL param in specials cases, even the fact that the referring domain is internal, you can add a list of whitelisted referring domains:
+
+```coffeescript
+  mpp = new MixingpanelTracker
+    external_domains:
+     [ 'foo.bar.org', 'baz.bar.org', 'meh.bar.org' ]
+```
+
+Remember, that list checks domains when:
+
+1. Adding a **source**
+2. Adding **URL params** for tracking
+
+**DO NOT SET IN ANY CASE YOUR OWN DOMAIN ('bar.org' on the example case) OR THE SOURCE WILL BE RECALCULATED ON EVERY PAGE VISIT**
+
+## Tracking properties priority!!
+**Be careful at this point**, there are many ways of tracking properties, but they will be merged in order, so maybe you'll find some of then are been override and you won't know why. Properties tracking order is:
+
+1. [Global body attributes](#appending-body-data-attributes)
+2. [Other properties](#helpers)
+3. [Tracking URL params](#tracking-url-params)
+
+For example, you're tracking a property that is already on ```$('body').data().mp``` attributes:
+
+```Coffeescript
+$('body').data.mp
+=> Object {foo: 'bar'}
+
+@mixingpanel_tracker.track('Visit page', foo: 'foo')
+```
+
+In the case above, you'll get **foo** property with *bar* value on Mixpanel, because the **Global body attributes** have a more important priority on tracking.
+Same way will happen with **tracking URL params**.
+
+
+## Custom sessions using mixpanel superproperty
+
+You can create a custom session which use mp_session_id superproperty using the query param ```mp_session_start=YOURSESSIONID``` in the url.
+
+This is useful when you are doing tests and want to regroup all your tracking in multiple devices. You can close the custom session with the query param ```mp_session_end=ANY```.
 
 
 ## Running *Jasmine* test suite
@@ -210,9 +381,6 @@ To run the Jasmine test suit as CI:
 ```bash
 $ rake jasmine:ci:coffee
 ```
-
-## ToDo
-* Add **rspec** test for testing Rails helpers.
 
 ## License
 This project uses [*MIT-LICENSE*](http://en.wikipedia.org/wiki/MIT_License).
