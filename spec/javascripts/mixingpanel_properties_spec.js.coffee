@@ -66,13 +66,18 @@ describe "MixingpanelProperties", ->
       expect(mpp.search_terms_string).toEqual('compra de vehiculos en el extranjero por internet')
 
   describe "check if internal", ->
-    it "should return True if bar.org domain", ->
+    it "should return True if 'bar.org' domain", ->
       mpp = new MixingpanelProperties(@internal_domain, "http://meh.bar.org?meh#wat")
       expect(mpp.isInternal()).toBe(true)
 
-    it "should return False if not bar.org domain", ->
+    it "should return False if not 'bar.org' domain", ->
       mpp = new MixingpanelProperties(@internal_domain, "http://meh.helisto.es?bar.org#wat")
       expect(mpp.isInternal()).toBe(false)
+
+    it "should return False if 'bar-org.org' domain", ->
+      mpp = new MixingpanelProperties(@internal_domain, "http://meh.bar-org.org?meh#wat")
+      expect(mpp.isInternal()).toBe(false)
+
 
   describe "check if social", ->
     it "should return False if not social", ->
