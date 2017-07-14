@@ -87,7 +87,8 @@ class @MixingpanelProperties
     @host.match(/bing\.com$/)
 
   isInternal: ->
-    domain = @internal_domain.split('.').slice(-2).join('.')
+    # Get domain (removing subdomains) and escape regexp chars
+    domain = @internal_domain.split('.').slice(-2).join('.').replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     if @host.match(domain) then true else false
 
   # There are some exception on domains that we'll consider as external anyway

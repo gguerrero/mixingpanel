@@ -164,3 +164,8 @@ callback, that function can be used in some special cases.
 
 * Add 'last_touch_start_session' to determine wether 'last_touch_*' attributes did track first time.
 * Add tests for source properties including 'last_touch_start_session'.
+
+## 0.60.2 (Mar 17, 2017)
+
+* Escape regexp for internal domain checking
+
